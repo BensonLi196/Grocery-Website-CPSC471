@@ -1,6 +1,6 @@
 -- items,user,supplier,store,manager,orders,manages,customer,browses,makes,has,manages,stocks,receives
 -- whats left are household, grocery, the shopping list things, and fixing some stuff for this code
-
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Sunny3489$';
 DROP DATABASE IF EXISTS GROCERY_STORE;
 CREATE DATABASE GROCERY_STORE; 
 USE GROCERY_STORE;
@@ -44,9 +44,7 @@ CREATE TABLE STORE (
     address		varchar(255) not null,
     openHours	varchar(255) not null,
     stocks		int,
-    employes	int,
     FOREIGN KEY (stocks) REFERENCES ITEMS(itemID), 
-    FOREIGN KEY (employes) REFERENCES MANAGER(mgrID),
     CONSTRAINT store_pk PRIMARY KEY (storeID)
 );
 
@@ -57,10 +55,6 @@ CREATE TABLE MANAGER (
     storeID		int not null,
     FOREIGN KEY (mgrID) REFERENCES THE_USER(userID),
     FOREIGN KEY (storeID) REFERENCES STORE(storeID)
---     CONSTRAINT fk_mgrID FOREIGN KEY (mgrID)
--- 	REFERENCES THE_USER(userID),
---     CONSTRAINT fk_storeID FOREIGN KEY (storeID)
--- 	REFERENCES STORE(storeID)
 );
 
 -- probably needs to change
@@ -86,7 +80,7 @@ CREATE TABLE HAS (
 	itemID		int not null,
     supID		int not null,
     deliverAddr	varchar(45) not null,
-    FOREIGN KEY (itemID) REFERENCES ITEM(itemID),
+    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID),
     FOREIGN KEY (supID) REFERENCES SUPPLIER(supID)
 );
 
@@ -122,7 +116,7 @@ DROP TABLE IF EXISTS MAKES;
 CREATE TABLE MAKES (
 	mgrID		int not null,
     items		int not null,
-    FOREIGN KEY (mgrID) REFERENCES MANAGER(magrID),
+    FOREIGN KEY (mgrID) REFERENCES MANAGER(mgrID),
     FOREIGN KEY (items) REFERENCES ITEMS(itemID)
 );
 
