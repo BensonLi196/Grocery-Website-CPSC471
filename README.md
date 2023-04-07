@@ -3,7 +3,6 @@
 
 
 # extras
-- encypt passwords
 - verify email
 
 # manager
