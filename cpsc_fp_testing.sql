@@ -19,7 +19,7 @@ CREATE TABLE ITEMS (
 -- a database of all users who are signed up
 DROP TABLE IF EXISTS THE_USER;
 CREATE TABLE THE_USER (
-	userID		int not null,
+	userID		varchar(20) not null,
     FName		varchar(45) not null,
     lName		varchar(45) not null,
     email		varchar(255) not null,
@@ -39,20 +39,19 @@ CREATE TABLE SUPPLIER (
 -- information of the store
 DROP TABLE IF EXISTS STORE;
 CREATE TABLE STORE (
-	storeID		int not null,
+	storeID		varchar(45) not null,
     strName		varchar(45) not null,
     address		varchar(255) not null,
     openHours	varchar(255) not null,
-    stocks		int,
-    FOREIGN KEY (stocks) REFERENCES ITEMS(itemID), 
     CONSTRAINT store_pk PRIMARY KEY (storeID)
 );
 
 -- manager and customer probably need to change
 DROP TABLE IF EXISTS MANAGER;
 CREATE TABLE MANAGER (
-	mgrID		int not null,
-    storeID		int not null,
+	mgrID		varchar(20) not null,
+    storeID		varchar(45) not null,
+    PRIMARY KEY (mgrID, StoreID),
     FOREIGN KEY (mgrID) REFERENCES THE_USER(userID),
     FOREIGN KEY (storeID) REFERENCES STORE(storeID)
 );
@@ -60,14 +59,15 @@ CREATE TABLE MANAGER (
 -- probably needs to change
 DROP TABLE IF EXISTS CUSTOMER;
 CREATE TABLE CUSTOMER (
-	ctmrID		int not null,
+	ctmrID		varchar(20) not null,
+    PRIMARY KEY (ctmrID),
     FOREIGN KEY (ctmrID) REFERENCES THE_USER(userID)
 );
 
 -- allows user to browse through the items list
 DROP TABLE IF EXISTS BROWSES;
 CREATE TABLE BROWSES (
-	ctmrID		int not null,
+	ctmrID		varchar(20) not null,
     itemID		int not null,
     discount	varchar(45),
     FOREIGN KEY (ctmrID) REFERENCES CUSTOMER(ctmrID),
@@ -89,7 +89,7 @@ CREATE TABLE HAS (
 DROP TABLE IF EXISTS ORDERS;
 CREATE TABLE ORDERS (
 	orderID		int not null,
-	mgrID		int not null,
+	mgrID		varchar(20) not null,
     supID		int not null,
     items		int,
 --     CONSTRAINT fk_the_mgrID FOREIGN KEY (mgrID)
@@ -105,7 +105,7 @@ CREATE TABLE ORDERS (
 -- the items the manager can view/manage
 DROP TABLE IF EXISTS MANAGES;
 CREATE TABLE MANAGES (
-	mgrID		int,
+	mgrID		varchar(20),
     itemID		int,
     FOREIGN KEY (mgrID) REFERENCES THE_USER(userID),
     FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
@@ -114,20 +114,10 @@ CREATE TABLE MANAGES (
 -- also not sure if this is correct in terms of creating a single order with multiple items
 DROP TABLE IF EXISTS MAKES;
 CREATE TABLE MAKES (
-	mgrID		int not null,
+	mgrID		varchar(20) not null,
     items		int not null,
     FOREIGN KEY (mgrID) REFERENCES MANAGER(mgrID),
     FOREIGN KEY (items) REFERENCES ITEMS(itemID)
-);
-
-DROP TABLE IF EXISTS BROWSES;
-CREATE TABLE BROWSES (
-	userID		int,
-    itemID		int,
-    discounted	int,
-    menu		varchar(45), -- ????
-    FOREIGN KEY (userID) REFERENCES THE_USER(userID),
-    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
 );
 
 DROP TABLE IF EXISTS RECEIVES;
@@ -153,5 +143,18 @@ VALUES
     (2, "apple", 2.5, "3", 8),
     (3, "carrot", 2, "3", 5);
     
+INSERT INTO THE_USER(UserID, Fname, Lname, email, Upassword)
+VALUES
+	("bPX1xJtKFzD5P5o5LzZt", "test1", "test1", "aaa@bbb.ccc", "aaabbbccc"),
+    ("yotK3qgm0Q2aJl7bEjKZ", "test2", "test2", "test2@test.tst", "test2yes");
+    
+INSERT INTO STORE(storeID, strName, address, openHours)
+VALUES 
+	("store1", "store1", "addr", "8:00-18:00");
+    
+INSERT INTO MANAGER(mgrID, storeID)
+VALUES 
+	("bPX1xJtKFzD5P5o5LzZt", "store1");
+    
 -- SHOW FULL TABLES;
--- SELECT * FROM ITEMS; 
+SELECT * FROM THE_USER; 
