@@ -4,7 +4,7 @@
 
 
 # to do
-# manager
+- manager
 manages: able to edit how much of an item is remaining and apply discounts to it
 makes: can create an order for a supplier
 # supplier
