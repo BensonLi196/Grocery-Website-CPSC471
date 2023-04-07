@@ -2,7 +2,8 @@
 
 
 
-
+# extras
+- encypt passwords
 
 # manager
 - manages: able to edit how much of an item is remaining and apply discounts to it
