@@ -5,6 +5,15 @@ DROP DATABASE IF EXISTS GROCERY_STORE;
 CREATE DATABASE GROCERY_STORE; 
 USE GROCERY_STORE;
 
+-- a list of the stores suppliers
+DROP TABLE IF EXISTS SUPPLIER;
+CREATE TABLE SUPPLIER (
+	supID		int not null,
+    supName		varchar(45) not null,
+    address		varchar(255) not null,
+    CONSTRAINT store_pk PRIMARY KEY (supID)
+);
+
 -- creating a list of items to pick from, a table that contains all items as a single list
 DROP TABLE IF EXISTS ITEMS;
 CREATE TABLE ITEMS (
@@ -13,7 +22,38 @@ CREATE TABLE ITEMS (
     price		double not null,
     aisle		varchar(10) not null,
     amount		int,
-    CONSTRAINT item_pk PRIMARY KEY (itemID)
+    supplier	int,
+    CONSTRAINT item_pk PRIMARY KEY (itemID),
+    FOREIGN KEY (supplier) REFERENCES SUPPLIER(supID)
+);
+
+-- creating a list of grocery items to pick from, a table that contains all grocery items as a single list
+DROP TABLE IF EXISTS GROCERY;
+CREATE TABLE GROCERY (
+	itemID		int not null,
+    expiryDate	DATE,
+    allergies	JSON,
+    category	varchar(255) not null,
+    special		JSON,
+    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
+);
+
+-- creating a list of household items to pick from, a table that contains all household items as a single list
+DROP TABLE IF EXISTS HOUSEHOLD;
+CREATE TABLE HOUSEHOLD (
+	itemID		int not null,
+    category	varchar(255) not null,
+    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
+);
+
+-- creating a list of pharmacy items to pick from, a table that contains all pharmacy items as a single list
+DROP TABLE IF EXISTS PHARMACY;
+CREATE TABLE PHARMACY (
+	itemID		int not null,
+    category	varchar(255) not null,
+    genName		varchar(255) not null,
+    brandName	varchar(255),
+    FOREIGN KEY (itemID) REFERENCES HOUSEHOLD(itemID)
 );
 
 -- a database of all users who are signed up
@@ -25,15 +65,6 @@ CREATE TABLE THE_USER (
     email		varchar(255) not null,
     Upassword	varchar(255) not null,
     CONSTRAINT the_user_pk PRIMARY KEY (userID)
-);
-
--- a list of the stores suppliers
-DROP TABLE IF EXISTS SUPPLIER;
-CREATE TABLE SUPPLIER (
-	supID		int not null,
-    supName		varchar(45) not null,
-    address		varchar(255) not null,
-    CONSTRAINT store_pk PRIMARY KEY (supID)
 );
 
 -- information of the store
