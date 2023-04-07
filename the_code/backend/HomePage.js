@@ -3,6 +3,7 @@ const { error } = require('console');
 const mysql = require('mysql');
 const { resolve } = require('path');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
 const dbConnection = mysql.createConnection({
   host: "localhost",
@@ -38,34 +39,42 @@ function userLogin() {
   response.on('close', () => {
     let isManager = false;
     console.log();
-    const queryMngr = `SELECT userID FROM THE_USER WHERE email = '${userEmail}' AND Upassword = '${userPassword}'
-                                                      AND userID IN(SELECT mgrID FROM MANAGER)`;
-    const queryUser = `SELECT userID FROM THE_USER WHERE email = '${userEmail}' AND Upassword = '${userPassword}'`;
+    const queryMngr = `SELECT Upassword FROM THE_USER WHERE email = '${userEmail}' AND userID IN(SELECT mgrID FROM MANAGER)`;
+    const queryUser = `SELECT Upassword FROM THE_USER WHERE email = '${userEmail}' `;
     dbConnection.connect((err) => {
       if(err) throw err;
       dbConnection.query(queryMngr, (error, results, fields) => {
         if (error) throw error;
         if (results.length > 0) {
-          console.log('User is a manager');
-          isManager = true;
-          console.log(isManager);
-          dbConnection.end();
+          const passValid = bcrypt.compare(userPassword, JSON.stringify(results));
+          if(passValid) {
+            console.log('User is a manager');
+            isManager = true;
+            console.log(isManager);
+            dbConnection.end();
+          }
         } else {
-          console.log('User is not a manager.');
+          console.log('User is not a manager');
           dbConnection.query(queryUser, (error, results, fields) => {
-            if (error) throw error
-            if (results.length > 0) {
-              console.log('This account exists');
-              dbConnection.end();
-            } else {
-              console.log('This account does not exists in our database');
-              dbConnection.end();
-            }
-          });
-        }
+              if (error) throw error;
+              if(results.length > 0) {
+                console.log(userPassword);
+                console.log(results);
+                const passValid = bcrypt.compare(userPassword, JSON.stringify(results));
+                if(passValid) {
+                  console.log('This account exists');
+                  dbConnection.end();
+                }                
+              } else {
+                  console.log('This account does not exists in our database');
+                  dbConnection.end();
+                }
+            });
+          }
+        });
       });
     });  
-  });
+  
   // -------which is defined down here-------
   
   // function checkDatabase() {
@@ -170,29 +179,30 @@ function userRegister() {
         freeUserID();
       });
     });
-    queryChecking.then(() => {
-      if(emailUsed==false && userIDUsed==false) {
-        // Both email and userID are available, insert the new user into the database
-        const insertQuery = `INSERT INTO THE_USER (userID, Fname, Lname, email, Upassword) VALUES ('${userKey}', '${firstname}', '${lastName}', '${userEmail}', '${userPassword}')`;
-        dbConnection.query(insertQuery, (error, result, fields) => {
-          if (error) throw error;
-          console.log('User added successfully');
+    bcrypt.hash(userPassword, 8, function(err, hash) {
+      queryChecking.then(() => {
+        if(emailUsed==false && userIDUsed==false) {
+          // Both email and userID are available, insert the new user into the database
+          const insertQuery = `INSERT INTO THE_USER (userID, Fname, Lname, email, Upassword) VALUES ('${userKey}', '${firstname}', '${lastName}', '${userEmail}', '${hash}')`;
+          dbConnection.query(insertQuery, (error, result, fields) => {
+            if (error) throw error;
+            console.log('User added successfully');
+            dbConnection.end();
+            testingChanges();
+          });
+        } else {
+          console.log('could not register the account');
           dbConnection.end();
           testingChanges();
-        });
-      } else {
-        console.log('could not register the account');
+        }
+      }).catch((err) => {
+        console.error(err);
         dbConnection.end();
-        testingChanges();
-      }
-    }).catch((err) => {
-      console.error(err);
-      dbConnection.end();
+        // testingChanges();
+      });
+    });
       // testingChanges();
     });
-
-    // testingChanges();
-  });
 }
 
 // --------------- here to test changes made to database --------------------
