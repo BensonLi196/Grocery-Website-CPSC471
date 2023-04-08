@@ -119,18 +119,24 @@ CREATE TABLE HAS (
 -- not sure if the structure is correct in terms of containing multiple items per 1 order
 DROP TABLE IF EXISTS ORDERS;
 CREATE TABLE ORDERS (
-	orderID		int not null,
+	orderID		int not null auto_increment,
 	mgrID		varchar(20) not null,
     supID		int not null,
-    items		int,
 --     CONSTRAINT fk_the_mgrID FOREIGN KEY (mgrID)
 -- 	REFERENCES THE_USER(userID),
 --     CONSTRAINT fk_supID FOREIGN KEY (supID)
 -- 	REFERENCES SUPPLIER(supID),
 	FOREIGN KEY (mgrID) REFERENCES THE_USER(userID),
     FOREIGN KEY (supID) REFERENCES SUPPLIER(supID),
-    FOREIGN KEY (items) REFERENCES ITEMS(itemID),
     CONSTRAINT orderID_pk PRIMARY KEY (orderID)
+);
+
+DROP TABLE IF EXISTS ORDER_ITEMS;
+CREATE TABLE ORDER_ITEMS (
+	orderID		int not null,
+    itemID		int,
+    FOREIGN KEY (orderID) REFERENCES ORDERS(orderID),
+    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
 );
 
 -- the items the manager can view/manage
