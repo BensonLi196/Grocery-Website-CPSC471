@@ -23,21 +23,23 @@ function makeOrder(params) {
             // add to Orders
             const orderSQL = `INSERT INTO ORDERS (mgrID, supID) VALUES ('${managerID}', '${supplierID}')`;
             dbConnection.query(orderSQL, (error, result) => {
-                if(error) throw error;
+                if(error) reject(error);
 
                 var orderID;
                 orderID = result.insertId;
-
+                
                 // add list of items to order 
                 for (var i = 0; i < items.length; i++) {
                     const orderItemSQL = `INSERT INTO ORDER_ITEMS (orderID, itemID) VALUES (${orderID}, '${items[i]}')`;
                     dbConnection.query(orderItemSQL, (error, result) => {
-                        if(error) throw error;
+                        if(error) reject(error);
                     });
                 }
+                
                 dbConnection.end();
+                resolve();
+                
             });
-            resolve();
         });
 
     });
@@ -45,11 +47,12 @@ function makeOrder(params) {
 }
 
 function getAllOrders() {
-    const queryChecking = new Promise((resolve, reject) => {
-        dbConnection.connect((err) => {
-            if(err) reject(err);
 
-            var orderInfo;
+    var orderInfo;
+
+    return new Promise((resolve, reject) => {
+        dbConnection.connect((error) => {
+            if(error) reject(error);
 
             const getOrdersSQL = `
                 SELECT ORDERS.*, GROUP_CONCAT(ORDER_ITEMS.itemID) AS itemIDs
@@ -58,25 +61,30 @@ function getAllOrders() {
                 GROUP BY ORDERS.orderID`;
 
             dbConnection.query(getOrdersSQL, (error, result) => {
-                if(error) throw error;
-                console.log(result);
-                orderInfo = result;
+                if(error) reject(error);
+                orderInfo = JSON.stringify(result);
+                dbConnection.end();
+                resolve(orderInfo);
             });
         });
     });
-
 }
 
-/*
-test = {
-    mgrID: 'bPX1xJtKFzD5P5o5LzZt',
-    supID: 1,
-    items: [1,2,3]
-}
-makeOrder(test);
-*/
+async function test() {
 
-getAllOrders();
+    test = {
+        mgrID: 'bPX1xJtKFzD5P5o5LzZt',
+        supID: 1,
+        items: [1,2,3]
+    }
+    //makeOrder(test);
+
+    const orders = await getAllOrders();
+    console.log(orders);
+}
+
+test();
+
 
 return;
 module.exports = {

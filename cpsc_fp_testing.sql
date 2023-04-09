@@ -193,5 +193,8 @@ INSERT INTO MANAGER(mgrID, storeID)
 VALUES 
 	("bPX1xJtKFzD5P5o5LzZt", "store1");
     
+INSERT INTO SUPPLIER(supID, supName, address)
+VALUES
+	(1, "lol", "lol");
 -- SHOW FULL TABLES;
 SELECT * FROM THE_USER; 
