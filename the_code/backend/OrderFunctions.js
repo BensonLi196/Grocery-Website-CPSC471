@@ -85,8 +85,7 @@ async function test() {
 
 test();
 
-
-return;
 module.exports = {
-    makeOrder
+    makeOrder,
+    getAllOrders
 };
