@@ -44,6 +44,29 @@ function makeOrder(params) {
         
 }
 
+function getAllOrders() {
+    const queryChecking = new Promise((resolve, reject) => {
+        dbConnection.connect((err) => {
+            if(err) reject(err);
+
+            var orderInfo;
+
+            const getOrdersSQL = `
+                SELECT ORDERS.*, GROUP_CONCAT(ORDER_ITEMS.itemID) AS itemIDs
+                FROM ORDERS
+                LEFT JOIN ORDER_ITEMS ON ORDERS.orderID = ORDER_ITEMS.orderID
+                GROUP BY ORDERS.orderID`;
+
+            dbConnection.query(getOrdersSQL, (error, result) => {
+                if(error) throw error;
+                console.log(result);
+                orderInfo = result;
+            });
+        });
+    });
+
+}
+
 /*
 test = {
     mgrID: 'bPX1xJtKFzD5P5o5LzZt',
@@ -52,6 +75,8 @@ test = {
 }
 makeOrder(test);
 */
+
+getAllOrders();
 
 return;
 module.exports = {
