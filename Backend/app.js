@@ -27,7 +27,7 @@ const connection = mysql.createConnection({
 
 module.exports = connection;
 
-const server = app.listen(4000, () => {
+const server = app.listen(5000, () => {
     const host = server.address().address;
     const port = server.address().port;
     console.log(`Server running at http://${host}:${port}`);

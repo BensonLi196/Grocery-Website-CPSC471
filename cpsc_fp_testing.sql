@@ -14,6 +14,16 @@ CREATE TABLE SUPPLIER (
     CONSTRAINT store_pk PRIMARY KEY (supID)
 );
 
+-- information of the store
+DROP TABLE IF EXISTS STORE;
+CREATE TABLE STORE (
+	storeID		varchar(45) not null,
+    strName		varchar(45) not null,
+    address		varchar(255) not null,
+    openHours	varchar(255) not null,
+    CONSTRAINT store_pk PRIMARY KEY (storeID)
+);
+
 -- creating a list of items to pick from, a table that contains all items as a single list
 DROP TABLE IF EXISTS ITEMS;
 CREATE TABLE ITEMS (
@@ -24,8 +34,10 @@ CREATE TABLE ITEMS (
     aisle		varchar(10) not null,
     amount		int,
     supplier	int,
+    store		varchar(45), 
     CONSTRAINT item_pk PRIMARY KEY (itemID),
-    FOREIGN KEY (supplier) REFERENCES SUPPLIER(supID)
+    FOREIGN KEY (supplier) REFERENCES SUPPLIER(supID),
+    FOREIGN KEY (store) REFERENCES STORE(storeID)
 );
 
 -- creating a list of grocery items to pick from, a table that contains all grocery items as a single list
@@ -68,16 +80,6 @@ CREATE TABLE THE_USER (
     CONSTRAINT the_user_pk PRIMARY KEY (userID)
 );
 
--- information of the store
-DROP TABLE IF EXISTS STORE;
-CREATE TABLE STORE (
-	storeID		varchar(45) not null,
-    strName		varchar(45) not null,
-    address		varchar(255) not null,
-    openHours	varchar(255) not null,
-    CONSTRAINT store_pk PRIMARY KEY (storeID)
-);
-
 -- manager and customer probably need to change
 DROP TABLE IF EXISTS MANAGER;
 CREATE TABLE MANAGER (
@@ -118,32 +120,6 @@ CREATE TABLE ORDER_ITEMS (
     itemID		int,
     FOREIGN KEY (orderID) REFERENCES ORDERS(orderID),
     FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
-);
-
--- the items the manager can view/manage
-DROP TABLE IF EXISTS MANAGES;
-CREATE TABLE MANAGES (
-	mgrID		varchar(20),
-    itemID		int,
-    FOREIGN KEY (mgrID) REFERENCES THE_USER(userID),
-    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
-);
-
--- also not sure if this is correct in terms of creating a single order with multiple items
-DROP TABLE IF EXISTS MAKES;
-CREATE TABLE MAKES (
-	mgrID		varchar(20) not null,
-    items		int not null,
-    FOREIGN KEY (mgrID) REFERENCES MANAGER(mgrID),
-    FOREIGN KEY (items) REFERENCES ITEMS(itemID)
-);
-
-DROP TABLE IF EXISTS RECEIVES;
-CREATE TABLE RECEIVES (
-	orderID		int,
-    supID		int,
-    FOREIGN KEY (orderID) REFERENCES ORDERS(orderID),
-    FOREIGN KEY (supID) REFERENCES SUPPLIER(supID)
 );
 
 DROP TABLE IF EXISTS SHOP_LIST;
