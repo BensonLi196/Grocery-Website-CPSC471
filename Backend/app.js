@@ -5,6 +5,7 @@ const userRoutes = require("./routes/userRoutes.js");
 const orderRoutes = require("./routes/orderRoutes.js");
 const shoppingRoutes = require("./routes/shoppingRoutes.js");
 const manageRoutes = require("./routes/manageRoutes.js");
+const itemRoutes = require("./routes/itemRoutes.js");
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/shopping", shoppingRoutes);
 app.use("/api/manage", manageRoutes);
+app.use("/api/items", itemRoutes);
 
 const connection = mysql.createConnection({
     host: "localhost",
