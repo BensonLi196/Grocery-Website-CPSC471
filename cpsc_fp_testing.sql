@@ -1,6 +1,7 @@
 -- items,user,supplier,store,manager,orders,manages,customer,browses,makes,has,manages,stocks,receives
 -- whats left are household, grocery, the shopping list things, and fixing some stuff for this code
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Sunny3489$';
+SET FOREIGN_KEY_CHECKS = 1;
 DROP DATABASE IF EXISTS GROCERY_STORE;
 CREATE DATABASE GROCERY_STORE; 
 USE GROCERY_STORE;
@@ -45,10 +46,10 @@ DROP TABLE IF EXISTS GROCERY;
 CREATE TABLE GROCERY (
 	itemID		int not null,
     expiryDate	DATE,
-    allergies	JSON,
+    allergies	varchar(255),
     category	varchar(255) not null,
-    special		JSON,
-    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
+    special		varchar(255),
+    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID) ON DELETE CASCADE
 );
 
 -- creating a list of household items to pick from, a table that contains all household items as a single list
@@ -56,7 +57,7 @@ DROP TABLE IF EXISTS HOUSEHOLD;
 CREATE TABLE HOUSEHOLD (
 	itemID		int not null,
     category	varchar(255) not null,
-    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
+    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID) ON DELETE CASCADE
 );
 
 -- creating a list of pharmacy items to pick from, a table that contains all pharmacy items as a single list
@@ -65,7 +66,7 @@ CREATE TABLE PHARMACY (
 	itemID		int not null,
     genName		varchar(255) not null,
     brandName	varchar(255),
-    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
+    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID) ON DELETE CASCADE
 );
 
 -- a database of all users who are signed up
@@ -103,10 +104,6 @@ CREATE TABLE ORDERS (
 	orderID		int not null auto_increment,
 	mgrID		varchar(20) not null,
     supID		int not null,
---     CONSTRAINT fk_the_mgrID FOREIGN KEY (mgrID)
--- 	REFERENCES THE_USER(userID),
---     CONSTRAINT fk_supID FOREIGN KEY (supID)
--- 	REFERENCES SUPPLIER(supID),
 	FOREIGN KEY (mgrID) REFERENCES MANAGER(mgrID),
     FOREIGN KEY (supID) REFERENCES SUPPLIER(supID),
     CONSTRAINT orderID_pk PRIMARY KEY (orderID)
@@ -117,7 +114,7 @@ CREATE TABLE ORDER_ITEMS (
 	orderID		int not null,
     itemID		int,
     FOREIGN KEY (orderID) REFERENCES ORDERS(orderID),
-    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
+    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS SHOP_LIST;
@@ -134,8 +131,8 @@ CREATE TABLE ADDS (
 	listID		int not null,
     itemID		int,
     amount		int, 
-    FOREIGN KEY (listID) REFERENCES SHOP_LIST(listID),
-	FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
+    FOREIGN KEY (listID) REFERENCES SHOP_LIST(listID) ON DELETE CASCADE,
+	FOREIGN KEY (itemID) REFERENCES ITEMS(itemID) ON DELETE CASCADE
 );
 
 -- unsure how to implement this so i left the structure here for later, feel free to work on it
@@ -143,16 +140,16 @@ CREATE TABLE ADDS (
 -- CREATE TABLE SHOPPING_LIST (
 -- 	
 -- );
-
+/*
 -- here is where we can initially populate the databases, when you rerun the database (ie hit the lighting bolt again, all information
 -- that was changed in the program resets.
-INSERT INTO ITEMS (itemID, itemName, price, aisle, amount) 
+INSERT INTO ITEMS (itemName, price, aisle, amount, supplier) 
 VALUES 
-	(0, "tomato", 3, "3", 10),
-    (1, "potato", 1, "3", 11),
-    (2, "apple", 2.5, "3", 8),
-    (3, "carrot", 2, "3", 5);
-    
+	("tomato", 3, "3", 10, 1),
+    ("potato", 1, "3", 11, 1),
+    ("apple", 2.5, "3", 8, 1),
+    ("carrot", 2, "3", 5, 1);
+    */
 INSERT INTO THE_USER(UserID, Fname, Lname, email, Upassword)
 VALUES
 	("bPX1xJtKFzD5P5o5LzZt", "test1", "test1", "aaa@bbb.ccc", "aaabbbccc"),
