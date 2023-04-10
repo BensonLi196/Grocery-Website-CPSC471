@@ -136,35 +136,156 @@ CREATE TABLE ADDS (
 );
 
 -- unsure how to implement this so i left the structure here for later, feel free to work on it
--- DROP TABLE IF EXISTS SHOPPING_LIST;
--- CREATE TABLE SHOPPING_LIST (
--- 	
--- );
-/*
--- here is where we can initially populate the databases, when you rerun the database (ie hit the lighting bolt again, all information
--- that was changed in the program resets.
-INSERT INTO ITEMS (itemName, price, aisle, amount, supplier) 
-VALUES 
-	("tomato", 3, "3", 10, 1),
-    ("potato", 1, "3", 11, 1),
-    ("apple", 2.5, "3", 8, 1),
-    ("carrot", 2, "3", 5, 1);
-    */
-INSERT INTO THE_USER(UserID, Fname, Lname, email, Upassword)
+
+-- here is where we can initially populate the databases, when you rerun the database (ie hit the lighting bolt again,
+-- all information that was changed in the program resets.
+INSERT INTO SUPPLIER(supID, supName, address)
 VALUES
-	("bPX1xJtKFzD5P5o5LzZt", "test1", "test1", "aaa@bbb.ccc", "aaabbbccc"),
-    ("yotK3qgm0Q2aJl7bEjKZ", "test2", "test2", "test2@test.tst", "test2yes");
+	(1, "ElectricsConnect", "Edmonton, AB, CANADA"),
+    (2, "MeatsDelivered", "Calgary, AB, CANADA"),
+    (3, "Clothing4All", "Toronto, ON, CANADA"),
+    (4, "BestVeggies", "Scaramento, CAL, USA"),
+    (5, "BestOfTheRest", "Calgary, AB, CANADA"),
+    (6, "CanadaDrugs", "Calgary, AB, CANADA");
     
 INSERT INTO STORE(storeID, strName, address, openHours)
 VALUES 
-	("store1", "store1", "addr", "8:00-18:00");
+	("store1", "WalKart", "Calgary AB", "08:00-22:00"),
+    ("store2", "SuperMore", "Calgary AB", "08:00-22:00");
+
+-- store 1
+INSERT INTO ITEMS (itemName, price, discount, aisle, amount, supplier, store) 
+VALUES 
+    ("cheese", 3.5, 0, "3", 50, 2, "store1"), -- done
+    ("milk", 5.45, 0, "3", 60, 4, "store1"), -- done
+    ("tomato", 3.5, 0, "3", 50, 4, "store1"), -- done
+    ("bread", 5.45, 0, "3", 60, 5, "store1"), -- done
+    ("eggs", 5.45, 0, "3", 60, 4, "store1"), -- done
+    ("potato", 1.5, 0, "3", 60, 4, "store1"), -- done
+    ("apple", 2, 0, "3", 50, 4, "store1"), -- done
+    ("carrot", 3, 0, "3", 30, 4, "store1"), -- done
+    ("pasta", 5.25, 0, "3", 30, 5, "store1"), -- done
+    ("trash can", 9, 0, "3", 45, 3, "store1"), -- done
+    ("ground beef", 12, 0, "5", 15, 2, "store1"), -- done
+    ("chicken breast", 12, 5, "5", 15, 2, "store1"), -- done
+    ("rice bag", 3.20, 0, "1", 55, 5, "store1"), -- done
+    ("cereal", 6.20, 0, "1", 55, 5, "store1"), -- done
+    ("ice cream", 5.20, 0, "9", 55, 5, "store1"), -- done
+    ("fish", 10, 0, "1", 55, 5, "store1"), -- done
+    ("beyond meat", 20, 0, "1", 55, 5, "store1"), -- done
+    ("soaps", 11.99, 0, "8", 60, 3, "store1"), -- done
+    ("pans", 15.99, 12, "1", 20, 1, "store1"), -- done
+    ("pots", 15.99, 12, "1", 20, 1, "store1"), -- done
+    ("plates", 15.99, 12, "1", 20, 1, "store1"), -- done
+    ("advil", 23, 0, "3", 20, 6, "store1"), -- done
+    ("morphine", 45.45, 0, "3", 20, 6, "store1"), -- done
+    ("metformin", 45.45, 0, "3", 20, 6, "store1"); -- done
+INSERT INTO GROCERY(itemID, expiryDate, allergies, category, special)
+VALUES
+    ((SELECT itemID FROM ITEMS WHERE itemName = "cheese" AND store = "store1"),"2023-04-30","lactose","dairy",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "milk" AND store = "store1"),"2023-04-30","lactose","dairy",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "tomato" AND store = "store1"),"2023-04-30","","fruit",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "bread" AND store = "store1"),"2023-04-30","celiac","grains",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "eggs" AND store = "store1"),"2023-04-30","","protein",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "potato" AND store = "store1"),"2023-04-30","","vegetable",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "apple" AND store = "store1"),"2023-04-30","","fruit",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "carrot" AND store = "store1"),"2023-04-30","","vegetable",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "pasta" AND store = "store1"),"2023-04-30","celiac","grains",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "ground beef" AND store = "store1"),"2023-04-30","","protein",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "chicken breast" AND store = "store1"),"2023-04-30","","protein",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "rice bag" AND store = "store1"),"2023-04-30","","grains",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "cereal" AND store = "store1"),"2023-04-30","celiac","grains",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "ice cream" AND store = "store1"),"2023-04-30","lactose","dairy",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "fish" AND store = "store1"),"2023-04-30","","protein",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "beyond meat" AND store = "store1"),"2023-04-30","","protein","vegan");
+INSERT INTO HOUSEHOLD(itemID, category)
+VALUES
+    ((SELECT itemID FROM ITEMS WHERE itemName = "trash can" AND store = "store1"), "generic"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "soaps" AND store = "store1"), "shower"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "pans" AND store = "store1"), "kitchen"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "pots" AND store = "store1"), "kitchen"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "plates" AND store = "store1"), "kitchen");
+INSERT INTO PHARMACY(itemID, genName, brandName)
+VALUES
+    ((SELECT itemID FROM ITEMS WHERE itemName = "advil" AND store = "store1"), "Ibuprofen", "advil"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "morphine" AND store = "store1"), "opioid", "CanadaDrugs"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "metformin" AND store = "store1"), "dimethyl-biguanide hydrochloride", "CanadaDrugs");
+
+
+-- store 2
+INSERT INTO ITEMS (itemName, price, discount, aisle, amount, supplier, store) 
+VALUES 
+    ("cheese", 3.5, 0, "3", 50, 2, "store2"), -- done
+    ("milk", 5.45, 0, "3", 60, 4, "store2"), -- done
+    ("potato", 2, 0, "3", 60, 4, "store2"), -- done
+    ("bread", 5.45, 0, "3", 60, 5, "store2"), -- done
+    ("eggs", 5.45, 0, "3", 60, 4, "store2"), -- done
+    ("apple", 2, 0, "3", 50, 4, "store2"), -- done
+    ("cereal", 6.99, 10, "3", 30, 5, "store2"), --  done
+    ("beans", 2.75, 0, "3", 30, 5, "store2"), -- done
+    ("trash can", 9, 0, "3", 45, 3, "store2"), -- done
+    ("ground beef", 12, 0, "5", 15, 2, "store2"), -- done
+    ("chicken breast", 12, 0, "5", 15, 2, "store2"), -- done
+    ("rice bag", 3.20, 0, "1", 55, 5, "store2"), -- done
+    ("utensils", 3.99, 0, "8", 60, 5, "store2"), -- done
+    ("pots", 19.99, 10, "1", 20, 5, "store2"), -- done
+    ("advil", 23, 0, "3", 20, 6, "store2"), -- done
+    ("xenex", 45.45, 0, "3", 20, 6, "store2"); -- done
+INSERT INTO GROCERY(itemID, expiryDate, allergies, category, special)
+VALUES 
+    ((SELECT itemID FROM ITEMS WHERE itemName = "cheese" AND store = "store2"),"2023-04-30","lactose","dairy",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "milk" AND store = "store2"),"2023-04-30","lactose","dairy",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "potato" AND store = "store2"),"2023-04-30","","vegetable",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "bread" AND store = "store2"),"2023-04-30","celiac","grains",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "eggs" AND store = "store2"),"2023-04-30","","protein",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "apple" AND store = "store2"),"2023-04-30","","fruit",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "cereal" AND store = "store2"),"2023-04-30","","grains",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "beans" AND store = "store2"),"2023-04-30","canned","grains","canned"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "ground beef" AND store = "store2"),"2023-04-30","","protein",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "chicken breast" AND store = "store2"),"2023-04-30","","protein",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "rice bag" AND store = "store2"),"2023-04-30","","grains","");
+INSERT INTO HOUSEHOLD(itemID, category)
+VALUES
+    ((SELECT itemID FROM ITEMS WHERE itemName = "trash can" AND store = "store2"), "generic"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "utensils" AND store = "store2"), "kitchen"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "pots" AND store = "store2"), "kitchen");
+INSERT INTO PHARMACY(itemID, genName, brandName)
+VALUES
+    ((SELECT itemID FROM ITEMS WHERE itemName = "advil" AND store = "store2"), "Ibuprofen", "advil"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "xenex" AND store = "store2"), "alprazolam", "Xenex");
+
+INSERT INTO THE_USER(UserID, FName, lName, email, Upassword)
+VALUES
+	("bPX1xJtKFzD5P5o5LzZt", "John", "Doe", "johnD@email.com", "jhndoe"), -- manager
+    ("f57878c01a47bbfd0021", "Phil", "Smith", "phils@email.com", "psmiths"), -- manager
+    ("4d02c3f3d066ec34b23a", "Lexy", "Brown", "lexyB@email.com", "lxybrwon"), -- manager
+    ("f1215b6bc5b6c7941e33", "Barry", "Davis", "barryD@email.com", "brydavis"), -- manager
+    ("yotK3qgm0Q2aJl7bEjKZ", "Jessica", "Lee", "jessicaL@email.com", "jeslee"), -- manager
+    ("8b29a02b771f8916942d", "Julia", "Anderson", "juliaA@email.com", "jlanderson"),
+    ("a42a21f1c1b955a2b61d", "Marry", "Wilson", "marryW@email.com", "mrywilson"),
+    ("30fc1f8127f301ad9e9f", "Kate", "Harris", "kateH@email.com", "ktharris"),
+    ("4c4cb7d6f584b441d1c8", "Cooper", "Jackson", "cooperJ@email.com", "cprjackson"),
+    ("53b3a3b9ccf58e67f0b3", "Liam", "White", "liamW@email.com", "lmwhite"),
+    ("a23bf6f2d2c077cfb33a", "Maddy", "Smith", "maddyS@email.com", "madsmith"),
+    ("fcfaa41371c1d0a12e06", "Tyler", "White", "tylerW@email.com", "tywhite");
     
 INSERT INTO MANAGER(mgrID, storeID)
 VALUES 
-	("bPX1xJtKFzD5P5o5LzZt", "store1");
-    
-INSERT INTO SUPPLIER(supID, supName, address)
+	("bPX1xJtKFzD5P5o5LzZt", "store1"),
+    ("f57878c01a47bbfd0021", "store1"),
+    ("4d02c3f3d066ec34b23a", "store1"),
+    ("f1215b6bc5b6c7941e33", "store2"),
+    ("yotK3qgm0Q2aJl7bEjKZ", "store2");
+
+INSERT INTO CUSTOMER(ctmrID)
 VALUES
-	(1, "lol", "lol");
+    ("8b29a02b771f8916942d"),
+    ("a42a21f1c1b955a2b61d"),
+    ("30fc1f8127f301ad9e9f"),
+    ("4c4cb7d6f584b441d1c8"),
+    ("53b3a3b9ccf58e67f0b3"),
+    ("a23bf6f2d2c077cfb33a"),
+    ("fcfaa41371c1d0a12e06");
+
 -- SHOW FULL TABLES;
-SELECT * FROM THE_USER; 
+-- SELECT * FROM THE_USER; 
