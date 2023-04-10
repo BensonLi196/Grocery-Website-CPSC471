@@ -20,6 +20,7 @@ CREATE TABLE ITEMS (
 	itemID		int not null,
     itemName	varchar(255),
     price		double not null,
+    discount 	double default 0,
     aisle		varchar(10) not null,
     amount		int,
     supplier	int,
@@ -95,42 +96,28 @@ CREATE TABLE CUSTOMER (
     FOREIGN KEY (ctmrID) REFERENCES THE_USER(userID)
 );
 
--- allows user to browse through the items list
-DROP TABLE IF EXISTS BROWSES;
-CREATE TABLE BROWSES (
-	ctmrID		varchar(20) not null,
-    itemID		int not null,
-    discount	varchar(45),
-    FOREIGN KEY (ctmrID) REFERENCES CUSTOMER(ctmrID),
-    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
-);
-
--- a list of deliverables, items that come from the supplier
-DROP TABLE IF EXISTS HAS;
-CREATE TABLE HAS (
-	itemID		int not null,
-    supID		int not null,
-    deliverAddr	varchar(45) not null,
-    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID),
-    FOREIGN KEY (supID) REFERENCES SUPPLIER(supID)
-);
-
 -- needs to become a weak entity
 -- not sure if the structure is correct in terms of containing multiple items per 1 order
 DROP TABLE IF EXISTS ORDERS;
 CREATE TABLE ORDERS (
-	orderID		int not null,
+	orderID		int not null auto_increment,
 	mgrID		varchar(20) not null,
     supID		int not null,
-    items		int,
 --     CONSTRAINT fk_the_mgrID FOREIGN KEY (mgrID)
 -- 	REFERENCES THE_USER(userID),
 --     CONSTRAINT fk_supID FOREIGN KEY (supID)
 -- 	REFERENCES SUPPLIER(supID),
 	FOREIGN KEY (mgrID) REFERENCES THE_USER(userID),
     FOREIGN KEY (supID) REFERENCES SUPPLIER(supID),
-    FOREIGN KEY (items) REFERENCES ITEMS(itemID),
     CONSTRAINT orderID_pk PRIMARY KEY (orderID)
+);
+
+DROP TABLE IF EXISTS ORDER_ITEMS;
+CREATE TABLE ORDER_ITEMS (
+	orderID		int not null,
+    itemID		int,
+    FOREIGN KEY (orderID) REFERENCES ORDERS(orderID),
+    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
 );
 
 -- the items the manager can view/manage
@@ -157,6 +144,24 @@ CREATE TABLE RECEIVES (
     supID		int,
     FOREIGN KEY (orderID) REFERENCES ORDERS(orderID),
     FOREIGN KEY (supID) REFERENCES SUPPLIER(supID)
+);
+
+DROP TABLE IF EXISTS SHOP_LIST;
+CREATE TABLE SHOP_LIST (
+	listID		int not null auto_increment,
+    listName	varchar(255) not null,
+    userID		varchar(20) not null,
+    FOREIGN KEY (userID) REFERENCES THE_USER(userID),
+    CONSTRAINT list_pk PRIMARY KEY (listID)
+);
+
+DROP TABLE IF EXISTS ADDS;
+CREATE TABLE ADDS (
+	listID		int not null,
+    itemID		int,
+    amount		int, 
+    FOREIGN KEY (listID) REFERENCES SHOP_LIST(listID),
+	FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
 );
 
 -- unsure how to implement this so i left the structure here for later, feel free to work on it
@@ -187,5 +192,8 @@ INSERT INTO MANAGER(mgrID, storeID)
 VALUES 
 	("bPX1xJtKFzD5P5o5LzZt", "store1");
     
+INSERT INTO SUPPLIER(supID, supName, address)
+VALUES
+	(1, "lol", "lol");
 -- SHOW FULL TABLES;
 SELECT * FROM THE_USER; 
