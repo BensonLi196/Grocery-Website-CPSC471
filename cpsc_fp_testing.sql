@@ -20,6 +20,7 @@ CREATE TABLE ITEMS (
 	itemID		int not null,
     itemName	varchar(255),
     price		double not null,
+    discount 	double default 0,
     aisle		varchar(10) not null,
     amount		int,
     supplier	int,
@@ -93,26 +94,6 @@ CREATE TABLE CUSTOMER (
 	ctmrID		varchar(20) not null,
     PRIMARY KEY (ctmrID),
     FOREIGN KEY (ctmrID) REFERENCES THE_USER(userID)
-);
-
--- allows user to browse through the items list
-DROP TABLE IF EXISTS BROWSES;
-CREATE TABLE BROWSES (
-	ctmrID		varchar(20) not null,
-    itemID		int not null,
-    discount	varchar(45),
-    FOREIGN KEY (ctmrID) REFERENCES CUSTOMER(ctmrID),
-    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
-);
-
--- a list of deliverables, items that come from the supplier
-DROP TABLE IF EXISTS HAS;
-CREATE TABLE HAS (
-	itemID		int not null,
-    supID		int not null,
-    deliverAddr	varchar(45) not null,
-    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID),
-    FOREIGN KEY (supID) REFERENCES SUPPLIER(supID)
 );
 
 -- needs to become a weak entity
