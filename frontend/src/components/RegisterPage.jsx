@@ -1,6 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { Link } from "react-router-dom";
+import { RegisterAPI } from '../callAPI';
 
 function RegisterPage() {
   const [FName, setFname] = useState("");
@@ -92,17 +93,22 @@ function RegisterPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-
-      window.location.href = "/login";
-    } catch (error) {
-      console.error(error);
+    if (FName === ""|| LName === "" || Email ==="" ||password === "" ){
+      alert("One of the fields was empty, please fill in all the blanks.");
+    }else{
+      try {
+        const response = await RegisterAPI(FName,LName,Email,password)
+        window.location.href = "/login";
+      } catch (error) {
+        console.error(error);
+      }
+       
     }
-     
+
 
   };
 
-  //handles the user entering username
+
   const handleFNameChange = (event) => {
     setFname(event.target.value);
   };
@@ -111,7 +117,6 @@ function RegisterPage() {
     setLname(event.target.value);
   };  
 
-  //handles the user entering username
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
