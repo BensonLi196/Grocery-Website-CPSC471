@@ -165,6 +165,24 @@ CREATE TABLE RECEIVES (
     FOREIGN KEY (supID) REFERENCES SUPPLIER(supID)
 );
 
+DROP TABLE IF EXISTS SHOP_LIST;
+CREATE TABLE SHOP_LIST (
+	listID		int not null auto_increment,
+    listName	varchar(255) not null,
+    userID		varchar(20) not null,
+    FOREIGN KEY (userID) REFERENCES THE_USER(userID),
+    CONSTRAINT list_pk PRIMARY KEY (listID)
+);
+
+DROP TABLE IF EXISTS ADDS;
+CREATE TABLE ADDS (
+	listID		int not null,
+    itemID		int,
+    amount		int, 
+    FOREIGN KEY (listID) REFERENCES SHOP_LIST(listID),
+	FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
+);
+
 -- unsure how to implement this so i left the structure here for later, feel free to work on it
 -- DROP TABLE IF EXISTS SHOPPING_LIST;
 -- CREATE TABLE SHOPPING_LIST (
