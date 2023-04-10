@@ -17,9 +17,9 @@ const getLists = async(req, res) => {
 
     const getListSQL = `SELECT sl.listName, GROUP_CONCAT(i.itemName, ',', i.price, ',', i.discount SEPARATOR ';') AS itemList
                         FROM SHOP_LIST sl
-                        JOIN ADDS a ON sl.listID = a.listID
-                        JOIN ITEMS i ON a.itemID = i.itemID
-                        WHERE sl.userID = '${userID}'
+                        LEFT JOIN ADDS a ON sl.listID = a.listID
+                        LEFT JOIN ITEMS i ON a.itemID = i.itemID
+                        WHERE sl.ctmrID = '${userID}'
                         GROUP BY sl.listID;`;
 
 
@@ -36,7 +36,7 @@ const makeList = async(req, res) => {
     
     const {listName, userID} = req.body;
 
-    const makeListSQL = `INSERT INTO SHOP_LIST (listName, userID) VALUES ('${listName}','${userID}')`;
+    const makeListSQL = `INSERT INTO SHOP_LIST (listName, ctmrID) VALUES ('${listName}','${userID}')`;
     dbConnection.query(makeListSQL, (error, result) => {
         if(error) {
             res.status(500).send('DB error');
@@ -50,7 +50,7 @@ const deleteList = async(req, res) => {
      
     const {listID, userID} = req.body;
 
-    const deleteItemSQL = `DELETE FROM SHOP_LIST WHERE listID = '${listID}' AND userID = '${userID}'`;
+    const deleteItemSQL = `DELETE FROM SHOP_LIST WHERE listID = '${listID}' AND ctmrID = '${userID}'`;
     dbConnection.query(deleteItemSQL, (error, result) => {
         if(error) {
             res.status(500).send('DB error');
