@@ -106,6 +106,10 @@ const userRegister = async(req, res) => {
         dbConnection.query(insertQuery, (error, result, fields) => {
           if (error) throw error;
           console.log('User added successfully');
+          const tstQuery = `INSERT INTO CUSTOMER (ctmrID) SELECT userID FROM THE_USER WHERE userID = '${userKey}'`;
+          dbConnection.query(tstQuery, (err, results, field) => {
+            if (err) throw err;
+          });
           res.status(201).send('User successfully created');
         });
       } else {

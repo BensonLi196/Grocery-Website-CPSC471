@@ -94,7 +94,6 @@ CREATE TABLE MANAGER (
 DROP TABLE IF EXISTS CUSTOMER;
 CREATE TABLE CUSTOMER (
 	ctmrID		varchar(20) not null,
-    PRIMARY KEY (ctmrID),
     FOREIGN KEY (ctmrID) REFERENCES THE_USER(userID)
 );
 
@@ -109,7 +108,7 @@ CREATE TABLE ORDERS (
 -- 	REFERENCES THE_USER(userID),
 --     CONSTRAINT fk_supID FOREIGN KEY (supID)
 -- 	REFERENCES SUPPLIER(supID),
-	FOREIGN KEY (mgrID) REFERENCES THE_USER(userID),
+	FOREIGN KEY (mgrID) REFERENCES MANAGER(mgrID),
     FOREIGN KEY (supID) REFERENCES SUPPLIER(supID),
     CONSTRAINT orderID_pk PRIMARY KEY (orderID)
 );
@@ -126,8 +125,8 @@ DROP TABLE IF EXISTS SHOP_LIST;
 CREATE TABLE SHOP_LIST (
 	listID		int not null auto_increment,
     listName	varchar(255) not null,
-    userID		varchar(20) not null,
-    FOREIGN KEY (userID) REFERENCES THE_USER(userID),
+    ctmrID		varchar(20) not null,
+    FOREIGN KEY (ctmrID) REFERENCES CUSTOMER(ctmrID),
     CONSTRAINT list_pk PRIMARY KEY (listID)
 );
 
