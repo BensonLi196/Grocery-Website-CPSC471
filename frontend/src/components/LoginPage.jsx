@@ -1,12 +1,14 @@
 import React, {useState, useEffect } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { Link } from "react-router-dom";
+import { LoginAPI } from '../callAPI';
+import { useUser } from '../UserContext';
 
 function LoginPage() {
   const [Email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
+  const { setUserId, setManager } = useUser();
 
   // button and container styles
   const containerStyle = {
@@ -89,10 +91,22 @@ function LoginPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      
-    //  LoginFunction.userLogin(Email,password);
+     const response= await LoginAPI(Email,password);
+     const { manager, ID } = response;
+      console.log("manager:", manager);
+      console.log("ID:", ID);
+     try{
+      localStorage.setItem("id", ID);
+      localStorage.setItem("manager", manager);
+     }catch(error){
+      console.error(error);
+     }
+     setUserId(ID);
+     setManager(manager);
+
       window.location.href = "/";
     } catch (error) {
+      console.log("unlucky ");
       console.error(error);
     }
      

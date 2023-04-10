@@ -1,9 +1,12 @@
 import React, {useState, useEffect } from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { Link } from "react-router-dom";
+import { RegisterAPI } from '../callAPI';
 
 function RegisterPage() {
-  const [Username, setUsername] = useState("");
+  const [FName, setFname] = useState("");
+  const [LName, setLname] = useState("");
+  const [Email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
 
@@ -90,20 +93,32 @@ function RegisterPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-
-      window.location.href = "/login";
-    } catch (error) {
-      console.error(error);
+    if (FName === ""|| LName === "" || Email ==="" ||password === "" ){
+      alert("One of the fields was empty, please fill in all the blanks.");
+    }else{
+      try {
+        const response = await RegisterAPI(FName,LName,Email,password)
+        window.location.href = "/login";
+      } catch (error) {
+        console.error(error);
+      }
+       
     }
-     
+
 
   };
 
 
-  //handles the user entering username
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  const handleFNameChange = (event) => {
+    setFname(event.target.value);
+  };
+
+  const handleLNameChange = (event) => {
+    setLname(event.target.value);
+  };  
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
   };
 
   //handles the user entering password
@@ -119,17 +134,17 @@ function RegisterPage() {
       <form onSubmit={handleSubmit} style={formStyle}>
       <label  style={labelStyle}>
           First Name:
-          <input type="Username" value={Username} onChange={handleUsernameChange} 
+          <input type="Username" value={FName} onChange={handleFNameChange} 
           style = {inputStyle}/>
         </label>
         <label  style={labelStyle}>
           Last Name:
-          <input type="Username" value={Username} onChange={handleUsernameChange} 
+          <input type="Username" value={LName} onChange={handleLNameChange} 
           style = {inputStyle}/>
         </label>
       <label  style={labelStyle}>
           Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="Username" value={Username} onChange={handleUsernameChange} 
+          <input type="Email" value={Email} onChange={handleEmailChange} 
           style = {inputStyle}/>
         </label>
         <br />
