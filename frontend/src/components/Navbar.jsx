@@ -1,14 +1,32 @@
-import { Stack,Button,Textfield,Menu, MenuItem } from "@mui/material";
+import { Stack,Button,Textfield,Menu, MenuItem, Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import logo from "../logo.png";
 import SearchIcon from "@mui/icons-material/Search";
+import { useUser } from "../UserContext";
 
 const Navbar = () => {
   const [groceryAnchorEl, setGroceryAnchorEl] = useState(null);
   const [householdAnchorEl, setHouseholdAnchorEl] = useState(null);
+  const { userId, setUserId,setManager } = useUser();
+  const [anchorEl, setAnchorEl] = useState(null);
 
 
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    setUserId(null);
+    setManager(false);
+    localStorage.removeItem("id");
+    localStorage.removeItem("manager");
+    window.location.href = "/";
+  };
   
   const handleGroceryClick = (event) => {
     setGroceryAnchorEl(event.currentTarget);
@@ -29,6 +47,8 @@ const Navbar = () => {
   const handleHouseholdClose = () => {
     setHouseholdAnchorEl(null);
   };
+
+
     return (
       <Stack
         display="flex"
@@ -161,9 +181,44 @@ const Navbar = () => {
   <SearchIcon sx={{ color: "grey", cursor: "pointer" }} />
 </div>
         <Stack direction="row" alignItems={"right"}>
-        <Link to="/login">
+        {userId ? (
+          <div>
+            <Button onClick={handleMenuOpen}>
+              <Avatar />
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+            >
+   
+
+              <MenuItem onClick={handleMenuClose}>
+                <Link
+                  to={`/user/`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  Profile
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </div>
+        ) : (
+          <div>
+           <Link to="/login">
                 <Button variant="contained">Sign in/Register</Button>
-        </Link>
+            </Link>
+          </div>
+        )}
       
         </Stack>
       </Stack>
