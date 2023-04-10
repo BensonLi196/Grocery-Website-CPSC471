@@ -19,12 +19,12 @@ const userLogin = async(req, res) => {
     var userID; 
     const queryMngr = `SELECT * FROM THE_USER WHERE email = '${email}' AND userID IN(SELECT mgrID FROM MANAGER)`;
     const queryUser = `SELECT * FROM THE_USER WHERE email = '${email}' `;
-    dbConnection.query(queryMngr, (error, results, fields) => {
+    dbConnection.query(queryMngr, async (error, results, fields) => {
       if (error) throw error;
       if (results.length > 0) {
-        const passValid = bcrypt.compare(Upassword, JSON.stringify(results));
+        const passValid = await bcrypt.compare(Upassword, results[0].Upassword);
         if(passValid) {
-          userID = results[0].mgrID;
+          userID = results[0].userID;
           const response = {
             manager: true,
             ID: userID
@@ -34,10 +34,10 @@ const userLogin = async(req, res) => {
           res.status(401).send('Password is wrong');
         }
       } else {
-        dbConnection.query(queryUser, (error, results, fields) => {
+        dbConnection.query(queryUser, async (error, results, fields) => {
             if (error) throw error;
             if(results.length > 0) {
-              const passValid = bcrypt.compare(Upassword, JSON.stringify(results));
+              const passValid = await bcrypt.compare(Upassword, results[0].Upassword);
               if(passValid) {
                 userID = results[0].userID;
                 const response = {
@@ -45,11 +45,12 @@ const userLogin = async(req, res) => {
                   ID: userID
                 };
                 return res.status(200).json(response);
+              } else {
+                return res.status(401).send("Password is wrong");
               }                
             } else {
-                res.status(404);
-                console.log('This account does not exists in our database');
-              }
+                res.status(404).send('User does not exist');
+            }            
           });
         }
       });
@@ -84,7 +85,6 @@ const userRegister = async(req, res) => {
           userKey = crypto.randomBytes(10).toString('hex');
           freeUserID();
         } else {
-          // dbConnection.end();
           userIDUsed = false;
           resolve();
         }
