@@ -27,14 +27,14 @@ CREATE TABLE STORE (
 -- creating a list of items to pick from, a table that contains all items as a single list
 DROP TABLE IF EXISTS ITEMS;
 CREATE TABLE ITEMS (
-	itemID		int not null,
+	itemID		int not null auto_increment,
     itemName	varchar(255),
     price		double not null,
     discount 	double default 0,
     aisle		varchar(10) not null,
     amount		int,
     supplier	int,
-    store		varchar(45), 
+    store		varchar(45) default 'store1', 
     CONSTRAINT item_pk PRIMARY KEY (itemID),
     FOREIGN KEY (supplier) REFERENCES SUPPLIER(supID),
     FOREIGN KEY (store) REFERENCES STORE(storeID)
@@ -63,10 +63,9 @@ CREATE TABLE HOUSEHOLD (
 DROP TABLE IF EXISTS PHARMACY;
 CREATE TABLE PHARMACY (
 	itemID		int not null,
-    category	varchar(255) not null,
     genName		varchar(255) not null,
     brandName	varchar(255),
-    FOREIGN KEY (itemID) REFERENCES HOUSEHOLD(itemID)
+    FOREIGN KEY (itemID) REFERENCES ITEMS(itemID)
 );
 
 -- a database of all users who are signed up
