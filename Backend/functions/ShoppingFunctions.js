@@ -42,7 +42,7 @@ const makeList = async(req, res) => {
             res.status(500).send('DB error');
             throw(error);
         }
-        res.status(400).send('Sucessfully created list');
+        res.status(200).send('Sucessfully created list');
     });
 }
 
@@ -56,7 +56,7 @@ const deleteList = async(req, res) => {
             res.status(500).send('DB error');
             throw(error);
         }
-        res.status(400).send('Sucessfully deleted list');
+        res.status(200).send('Sucessfully deleted list');
     });
 }
 
