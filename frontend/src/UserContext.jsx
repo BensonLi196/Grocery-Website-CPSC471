@@ -19,6 +19,8 @@ export function UserProvider(props) {
         console.log('Hey this is the token manager:', manager);
 
     }else{
+        setUserId(null);
+        setManager(false);
         console.log('Token doesnt exist:');
     }
   }, []);

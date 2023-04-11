@@ -1,14 +1,13 @@
 import React from 'react';
-import Slideshow from './Slideshow/Slideshow';
 import { Link } from "react-router-dom";
 import { useUser } from '../UserContext';
 
-function HomePage() {
+function ManagementPage() {
   const styles = {
     marginTop: '-20px'
   };
 
-  const {manager}= useUser();
+  const {manager}=useUser();
 
   const rectangleStyle = {
     height: '490px',
@@ -57,52 +56,43 @@ function HomePage() {
   };
 
   return (
+  
     <div style={{ overflowX: 'hidden' }}>
-        <div style={styles}>
+      {manager ==='true'?(
+        <>
+      <div style={styles}>
             <br/>
-            <Slideshow/>
+            <h1 style={{textAlign: 'center', fontFamily: 'Roboto'}}>Management Tools</h1>
             <ul>
             </ul>
-        </div>
+      </div>
         <br/>
-         <div style={containerStyle}>
-          {manager ==='true'?(
+      <div style={containerStyle}>
             <div style={rectangleStyle}>
-            <img style={imageStyle} src="https://www.magestore.com/wp-content/uploads/2021/11/pos-system-for-retail-store-management.jpg" alt="shopping list" />
-                <h3> Manage the store here</h3>
-                <Link to="/management">
+            <img style={imageStyle} src="https://smallbusiness-staging.s3.amazonaws.com/uploads/2017/11/Supplier-101117-scaled.jpeg" alt="shopping list" />
+                <h3>Manage Orders</h3>
+                <Link to="/management/orders">
                     <button  style = {buttonStyle}>Go</button>
                 </Link>
             </div>
-          ):(
-            <div style={rectangleStyle}>
-            <img style={imageStyle} src="https://stopfoodwaste.ie/wp-content/uploads/2017/09/shopping-list.jpg" alt="shopping list" />
-                <h3>Try our convenient shopping list!</h3>
-                <Link to="/shopping_list">
-                    <button  style = {buttonStyle}>Go</button>
-                </Link>
-            </div>
-          )
-            }
             <div style={rectangleStyle}>
                 <img style={imageStyle} src="https://hips.hearstapps.com/hmg-prod/images/09dce7b7-ea40-406b-a2c0-a3f57c420b17-1657946362.jpeg?crop=0.660xw:1.00xh;0.0794xw,0&resize=1200:*" alt="shopping list" />
-                <h3>Browse our stock of Grocery items!</h3>
-                <Link to="/items/grocery">
-                    <button  style = {buttonStyle}>Go</button>
-                </Link>
-            </div>
-            <div style={rectangleStyle}>
-                <img style={imageStyle} src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-510693044-1550590816.jpg" alt="shopping list" />
-                <h3>Browse our stock of Household items!</h3>
-                <Link to="/items/household">
+                <h3>Create Items</h3>
+                <Link to="/management/items">
                     <button  style = {buttonStyle}>Go</button>
                 </Link>
             </div>
       </div>
+      </>
+      ):
+      (
+        <h1 style={{textAlign: 'center', fontFamily: 'Roboto'}}>401 NOT AUTHORIZED</h1>
+      )
+      }
       <br/>
       <br/>
     </div>
   );
 }
 
-export default HomePage;
+export default ManagementPage;

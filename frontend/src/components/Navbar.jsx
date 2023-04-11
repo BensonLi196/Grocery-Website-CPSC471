@@ -1,4 +1,4 @@
-import { Stack,Button,Textfield,Menu, MenuItem, Avatar } from "@mui/material";
+import { Stack,Button,Textfield,Menu, MenuItem, Avatar, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import logo from "../logo.png";
@@ -8,8 +8,9 @@ import { useUser } from "../UserContext";
 const Navbar = () => {
   const [groceryAnchorEl, setGroceryAnchorEl] = useState(null);
   const [householdAnchorEl, setHouseholdAnchorEl] = useState(null);
-  const { userId, setUserId,setManager } = useUser();
+  const { userId, manager, setUserId,setManager } = useUser();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [search, setSearch] = useState("");
 
 
   const handleMenuOpen = (event) => {
@@ -32,8 +33,9 @@ const Navbar = () => {
     setGroceryAnchorEl(event.currentTarget);
   };
 
-  const handleGroceryLink = (event) => {
-    window.location.href = "/items/grocery";
+  const handleSearch = (e) => {
+    e.preventDefault();
+    window.location.href = `/items/search/${search}`;
   };
 
   const handleGroceryClose = () => {
@@ -83,7 +85,7 @@ const Navbar = () => {
 
          <p
           style={{
-            fontFamily: "Arial",
+            fontFamily: "Roboto",
             fontWeight: "",
             fontSize: "1.5rem",
             margin: 0,
@@ -128,6 +130,9 @@ const Navbar = () => {
           <MenuItem onClick={handleGroceryClose}>
             <Link to="/items/grocery/snacks">Snacks</Link>
           </MenuItem>
+          <MenuItem onClick={handleGroceryClose}>
+            <Link to="/items/grocery/produce">Produce</Link>
+          </MenuItem>
         </Menu>
       </div>
 
@@ -138,12 +143,11 @@ const Navbar = () => {
           display: "flex",
           alignItems: "center",
           cursor: "pointer",
-          width: "150px", // add a fixed width
         }}
       >
         <p
           style={{
-            fontFamily: "Arial",
+            fontFamily: "Roboto",
             fontWeight: "",
             fontSize: "1.5rem",
             margin: 0,
@@ -161,9 +165,6 @@ const Navbar = () => {
             <Link to="/items/household">Household</Link>
           </MenuItem>
           <MenuItem onClick={handleHouseholdClose}>
-            <Link to="/items/household/pharmacy">Pharmacy</Link>
-          </MenuItem>
-          <MenuItem onClick={handleHouseholdClose}>
             <Link to="/items/household/baby">Baby</Link>
           </MenuItem>
           <MenuItem onClick={handleHouseholdClose}>
@@ -173,12 +174,36 @@ const Navbar = () => {
             <Link to="/items/household/hygiene">Personal Hygiene</Link>
           </MenuItem>
         </Menu>
+
+      </div>
+      <div 
+        style={{
+          display: "flex",
+          alignItems: "center",
+          cursor: "pointer",
+        }}>
+        <Link to="/items/pharmacy">
+      <p
+          style={{
+            fontFamily: "Roboto",
+            fontWeight: "",
+            fontSize: "1.5rem",
+            margin: 0,
+            marginRight: "20px",
+          }}
+        >
+          Pharmacy
+        </p>
+        </Link>
       </div>
 
       {/* ////////////////////////////  Search Bar/////////////////////////////////////////////*/ }
       <div style={{ display: "flex", alignItems: "center", backgroundColor: "#fff", borderRadius: "5px", padding: "5px 25px" }}>
-  <input type="text" style={{ border: "none", backgroundColor: "transparent", marginLeft: "10px", fontSize: "1rem",  width: "650px", boxSizing: "border-box"}} placeholder="Search" />
-  <SearchIcon sx={{ color: "grey", cursor: "pointer" }} />
+  <input type="text" style={{ border: "none", backgroundColor: "transparent", marginLeft: "10px", fontSize: "1rem",  width: "450px", boxSizing: "border-box"}} placeholder="Search"  onChange={(e) => setSearch(e.target.value)} />
+  <IconButton onClick={handleSearch}>
+      <SearchIcon sx={{ color: "grey", cursor: "pointer" }} />
+  </IconButton>
+
 </div>
         <Stack direction="row" alignItems={"right"}>
         {userId ? (
@@ -200,15 +225,26 @@ const Navbar = () => {
               }}
             >
    
-
-              <MenuItem onClick={handleMenuClose}>
-                <Link
-                  to={`/user/`}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  Profile
-                </Link>
-              </MenuItem>
+              {manager ==='true' ?(
+                    <MenuItem onClick={handleMenuClose}>
+                    <Link
+                    to={`/management/`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    Management
+                  </Link>
+                  </MenuItem>
+                ):(
+                  <MenuItem onClick={handleMenuClose}>
+                  <Link
+                    to={`/shopping_list`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    My Lists
+                  </Link>
+                </MenuItem>
+                )
+                }
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>
@@ -218,8 +254,7 @@ const Navbar = () => {
                 <Button variant="contained">Sign in/Register</Button>
             </Link>
           </div>
-        )}
-      
+        )}     
         </Stack>
       </Stack>
     );
