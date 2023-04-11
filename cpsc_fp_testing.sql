@@ -159,24 +159,35 @@ VALUES
     ("cheese", 3.5, 0, "3", 50, 2, "store1"), -- done
     ("milk", 5.45, 0, "3", 60, 4, "store1"), -- done
     ("tomato", 3.5, 0, "3", 50, 4, "store1"), -- done
-    ("bread", 5.45, 0, "3", 60, 5, "store1"), -- done
-    ("eggs", 5.45, 0, "3", 60, 4, "store1"), -- done
     ("potato", 1.5, 0, "3", 60, 4, "store1"), -- done
     ("apple", 2, 0, "3", 50, 4, "store1"), -- done
     ("carrot", 3, 0, "3", 30, 4, "store1"), -- done
-    ("pasta", 5.25, 0, "3", 30, 5, "store1"), -- done
-    ("trash can", 9, 0, "3", 45, 3, "store1"), -- done
+    ("lemons", 5.20, 0, "9", 55, 5, "store1"),
+    ("bread", 5.45, 0, "3", 60, 5, "store1"), -- done
+    ("hotdog buns", 5.45, 0, "3", 60, 4, "store1"), -- done
     ("ground beef", 12, 0, "5", 15, 2, "store1"), -- done
-    ("chicken breast", 12, 5, "5", 15, 2, "store1"), -- done
+    ("hotdogs", 12, 0, "5", 15, 2, "store1"), -- done
+    ("chicken breast", 12, 5, "5", 15, 2, "store1"),
     ("rice bag", 3.20, 0, "1", 55, 5, "store1"), -- done
+    ("pasta", 5.25, 0, "3", 30, 5, "store1"), -- done
     ("cereal", 6.20, 0, "1", 55, 5, "store1"), -- done
-    ("ice cream", 5.20, 0, "9", 55, 5, "store1"), -- done
+    ("eggs", 5.25, 0, "3", 30, 5, "store1"), -- done
     ("fish", 10, 0, "1", 55, 5, "store1"), -- done
+    ("lobster", 10, 0, "1", 55, 5, "store1"), -- dont
+    ("ginger ale", 5.20, 0, "9", 55, 5, "store1"), -- done
+    ("coca cola", 5.20, 0, "9", 55, 5, "store1"),
+    ("orange juice", 20, 0, "1", 55, 5, "store1"), -- done
+    ("ham", 5.20, 0, "9", 55, 5, "store1"), -- done
+    ("salami", 20, 0, "1", 55, 5, "store1"), -- done
+    ("ice cream", 5.20, 0, "9", 55, 5, "store1"), -- done
     ("beyond meat", 20, 0, "1", 55, 5, "store1"), -- done
-    ("soaps", 11.99, 0, "8", 60, 3, "store1"), -- done
+
+    ("shampoo", 11.99, 0, "8", 60, 3, "store1"), -- done
+    ("conditioner", 11.99, 0, "8", 60, 3, "store1"), -- done
     ("pans", 15.99, 12, "1", 20, 1, "store1"), -- done
     ("pots", 15.99, 12, "1", 20, 1, "store1"), -- done
-    ("plates", 15.99, 12, "1", 20, 1, "store1"), -- done
+    ("diapers", 15.99, 12, "1", 20, 1, "store1"), -- done
+
     ("advil", 23, 0, "3", 20, 6, "store1"), -- done
     ("morphine", 45.45, 0, "3", 20, 6, "store1"), -- done
     ("metformin", 45.45, 0, "3", 20, 6, "store1"); -- done
@@ -185,26 +196,32 @@ VALUES
     ((SELECT itemID FROM ITEMS WHERE itemName = "cheese" AND store = "store1"),"2023-04-30","lactose","dairy",""),
     ((SELECT itemID FROM ITEMS WHERE itemName = "milk" AND store = "store1"),"2023-04-30","lactose","dairy",""),
     ((SELECT itemID FROM ITEMS WHERE itemName = "tomato" AND store = "store1"),"2023-04-30","","fruit",""),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "bread" AND store = "store1"),"2023-04-30","celiac","grains",""),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "eggs" AND store = "store1"),"2023-04-30","","protein",""),
     ((SELECT itemID FROM ITEMS WHERE itemName = "potato" AND store = "store1"),"2023-04-30","","vegetable",""),
     ((SELECT itemID FROM ITEMS WHERE itemName = "apple" AND store = "store1"),"2023-04-30","","fruit",""),
     ((SELECT itemID FROM ITEMS WHERE itemName = "carrot" AND store = "store1"),"2023-04-30","","vegetable",""),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "pasta" AND store = "store1"),"2023-04-30","celiac","grains",""),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "ground beef" AND store = "store1"),"2023-04-30","","protein",""),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "chicken breast" AND store = "store1"),"2023-04-30","","protein",""),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "rice bag" AND store = "store1"),"2023-04-30","","grains",""),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "cereal" AND store = "store1"),"2023-04-30","celiac","grains",""),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "ice cream" AND store = "store1"),"2023-04-30","lactose","dairy",""),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "fish" AND store = "store1"),"2023-04-30","","protein",""),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "beyond meat" AND store = "store1"),"2023-04-30","","protein","vegan");
+    ((SELECT itemID FROM ITEMS WHERE itemName = "bread" AND store = "store1"),"2023-04-30","celiac","bakery",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "hotdog buns" AND store = "store1"),"2023-04-30","","bakery",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "ground beef" AND store = "store1"),"2023-04-30","","meat",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "hotdogs" AND store = "store1"),"2023-04-30","","meat",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "rice bag" AND store = "store1"),"2023-04-30","","grocery",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "pasta" AND store = "store1"),"2023-04-30","celiac","grocery",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "cereal" AND store = "store1"),"2023-04-30","celiac","breakfast",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "eggs" AND store = "store1"),"2023-04-30","","breakfast",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "fish" AND store = "store1"),"2023-04-30","","seafood",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "lobster" AND store = "store1"),"2023-04-30","","seafood",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "ginger ale" AND store = "store1"),"2023-04-30","","drinks",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "orange juice" AND store = "store1"),"2023-04-30","","drinks",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "ham" AND store = "store1"),"2023-04-30","","deli",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "fish" AND store = "store1"),"2023-04-30","","deli",""),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "ice cream" AND store = "store1"),"2023-04-30","lactose","frozen","dairy"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "beyond meat" AND store = "store1"),"2023-04-30","","frozen","vegan");
 INSERT INTO HOUSEHOLD(itemID, category)
 VALUES
-    ((SELECT itemID FROM ITEMS WHERE itemName = "trash can" AND store = "store1"), "generic"),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "soaps" AND store = "store1"), "shower"),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "pans" AND store = "store1"), "kitchen"),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "pots" AND store = "store1"), "kitchen"),
-    ((SELECT itemID FROM ITEMS WHERE itemName = "plates" AND store = "store1"), "kitchen");
+    ((SELECT itemID FROM ITEMS WHERE itemName = "shampoo" AND store = "store1"), "personal hygiene"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "conditioner" AND store = "store1"), "personal hygiene"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "pans" AND store = "store1"), "home"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "pots" AND store = "store1"), "home"),
+    ((SELECT itemID FROM ITEMS WHERE itemName = "diapers" AND store = "store1"), "baby");
 INSERT INTO PHARMACY(itemID, genName, brandName)
 VALUES
     ((SELECT itemID FROM ITEMS WHERE itemName = "advil" AND store = "store1"), "Ibuprofen", "advil"),
