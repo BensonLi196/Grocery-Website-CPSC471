@@ -14,6 +14,8 @@ dbConnection.connect((err) => {
 const makeOrder = async(req, res) => {
     
     const {mgrID, supID, items} = req.body;
+    console.log(items);
+    console.log(typeof items[0]);
             
     // add to Orders
     const orderSQL = `INSERT INTO ORDERS (mgrID, supID) VALUES ('${mgrID}', '${supID}')`;
