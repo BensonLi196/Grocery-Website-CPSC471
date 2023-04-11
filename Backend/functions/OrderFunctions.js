@@ -25,7 +25,7 @@ const makeOrder = async(req, res) => {
         
         // add list of items to order 
         for (var i = 0; i < items.length; i++) {
-            const orderItemSQL = `INSERT INTO ORDER_ITEMS (orderID, itemID) VALUES (${orderID}, '${items[i]}')`;
+            const orderItemSQL = `INSERT INTO ORDER_ITEMS (orderID, itemID) VALUES (${orderID}, ${items[i]})`;
             dbConnection.query(orderItemSQL, (error, result) => {
                 if(error) return res.status(500).send('DB error');
             });
