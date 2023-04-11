@@ -15,7 +15,7 @@ const getLists = async(req, res) => {
     
     const userID = req.params.uid;
 
-    const getListSQL = `SELECT sl.listName, GROUP_CONCAT(i.itemName, ',', i.price, ',', i.discount, ',', a.amount SEPARATOR ';') AS itemList
+    const getListSQL = `SELECT sl.listID, sl.listName, GROUP_CONCAT(i.itemName, ',', i.price, ',', i.discount, ',', a.amount SEPARATOR ';') AS itemList
                         FROM SHOP_LIST sl
                         LEFT JOIN ADDS a ON sl.listID = a.listID
                         LEFT JOIN ITEMS i ON a.itemID = i.itemID
