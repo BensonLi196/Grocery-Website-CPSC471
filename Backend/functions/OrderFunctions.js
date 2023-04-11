@@ -19,7 +19,7 @@ const makeOrder = async(req, res) => {
         // add to Orders
         const orderSQL = `INSERT INTO ORDERS (mgrID, supID) VALUES ('${mgrID}', '${supID}')`;
         dbConnection.query(orderSQL, (error, result) => {
-            if(error) reject(error);
+            if(error) res.status(500).send('DB error');
 
             var orderID;
             orderID = result.insertId;
@@ -28,7 +28,7 @@ const makeOrder = async(req, res) => {
             for (var i = 0; i < items.length; i++) {
                 const orderItemSQL = `INSERT INTO ORDER_ITEMS (orderID, itemID) VALUES (${orderID}, '${items[i]}')`;
                 dbConnection.query(orderItemSQL, (error, result) => {
-                    if(error) reject(error);
+                    if(error) res.status(500).send('DB error');
                 });
             }
             res.status(200).send('Successfully added order');
@@ -53,7 +53,7 @@ const getAllOrders = async(req, res) => {
             GROUP BY ORDERS.orderID;`;
 
         dbConnection.query(getOrdersSQL, (error, result) => {
-            if(error) reject(error);
+            if(error) res.status(500).send("DB error");
             orderInfo = JSON.stringify(result);
             resolve(orderInfo);
             res.status(200).send(orderInfo);

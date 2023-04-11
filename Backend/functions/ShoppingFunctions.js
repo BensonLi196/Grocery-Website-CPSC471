@@ -25,8 +25,7 @@ const getLists = async(req, res) => {
 
     dbConnection.query(getListSQL, (error, result) => {
         if(error) {
-            res.status(500).send('DB error');
-            throw(error);
+            return res.status(500).send('DB error');
         }
         res.status(200).send(JSON.stringify(result));
     });
@@ -39,8 +38,7 @@ const makeList = async(req, res) => {
     const makeListSQL = `INSERT INTO SHOP_LIST (listName, ctmrID) VALUES ('${listName}','${userID}')`;
     dbConnection.query(makeListSQL, (error, result) => {
         if(error) {
-            res.status(500).send('DB error');
-            throw(error);
+            return res.status(500).send('DB error');
         }
         res.status(200).send('Sucessfully created list');
     });
@@ -53,8 +51,7 @@ const deleteList = async(req, res) => {
     const deleteItemSQL = `DELETE FROM SHOP_LIST WHERE listID = '${listID}' AND ctmrID = '${userID}'`;
     dbConnection.query(deleteItemSQL, (error, result) => {
         if(error) {
-            res.status(500).send('DB error');
-            throw(error);
+            return res.status(500).send('DB error');
         }
         res.status(200).send('Sucessfully deleted list');
     });
@@ -66,8 +63,7 @@ const addItemToList = async(req, res) => {
     const findItemSQL = `SELECT * FROM ADDS WHERE listID = ${listID} AND itemID = ${itemID};`;
     dbConnection.query(findItemSQL, async (error, result) => {
         if(error) {
-            res.status(500).send('DB error');
-            throw(error);
+            return res.status(500).send('DB error');
         }
         if(result.length > 0) {
             res.status(400).send('Item is already in shopping list');
@@ -75,8 +71,7 @@ const addItemToList = async(req, res) => {
             const addItemSQL = `INSERT INTO ADDS (listiD, itemID, amount) VALUES (${listID}, ${itemID}, ${amount})`;
             dbConnection.query(addItemSQL, async (error, result) => {
                 if(error) {
-                    res.status(500).send('DB error');
-                    throw(error);
+                    return res.status(500).send('DB error');
                 }
                 res.status(200).send('Sucessfully added item');
             });
@@ -90,8 +85,7 @@ const removeItemFromList = async(req, res) => {
     const deleteItemSQL = `DELETE FROM ADDS WHERE listID = ${listID} AND itemID = ${itemID}`;
     dbConnection.query(deleteItemSQL, (error, result) => {
         if(error) {
-            res.status(500).send('DB error');
-            throw(error);
+            return res.status(500).send('DB error');
         }
         res.status(200).send('Sucessfully deleted item');
     });

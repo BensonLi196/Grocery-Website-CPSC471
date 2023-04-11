@@ -104,11 +104,11 @@ const userRegister = async(req, res) => {
                                                                                                    '${email}', 
                                                                                                    '${hash}')`;
         dbConnection.query(insertQuery, (error, result, fields) => {
-          if (error) throw error;
+          if(error) res.status(500).send('DB error');
           console.log('User added successfully');
           const tstQuery = `INSERT INTO CUSTOMER (ctmrID) SELECT userID FROM THE_USER WHERE userID = '${userKey}'`;
-          dbConnection.query(tstQuery, (err, results, field) => {
-            if (err) throw err;
+          dbConnection.query(tstQuery, (error, results, field) => {
+            if(error) res.status(500).send('DB error');
           });
           res.status(201).send('User successfully created');
         });
@@ -118,6 +118,7 @@ const userRegister = async(req, res) => {
       }
     }).catch((err) => {
       console.error(err);
+      if(error) res.status(500).send('DB error');
     });
   });
 }
