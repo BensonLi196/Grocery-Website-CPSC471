@@ -52,21 +52,29 @@ const getPharmacyItems = async(req, res) => {
 
 const search = async(req, res) => {
 
-    const {search} = req.body;
+    try {
 
-    const searchSQL = `SELECT i.itemID, i.itemName, i.price, i.discount, i.aisle, i.amount, i.supplier, i.store, g.expiryDate, g.allergies, COALESCE(g.category, h.category) AS category, g.special, p.genName, p.brandName
-    FROM ITEMS i
-    LEFT JOIN GROCERY g ON i.itemID = g.itemID
-    LEFT JOIN HOUSEHOLD h ON i.itemID = h.itemID
-    LEFT JOIN PHARMACY p ON i.itemID = p.itemID
-    WHERE i.itemName LIKE '${search}';`;
-    
-    dbConnection.query(searchSQL, (error, result) => {
-        if(error) {
-            return res.status(500).send('DB error');
-        }
-        res.status(200).send(JSON.stringify(result));
-    });
+        const search = req.query.q;
+
+        const searchSQL = `SELECT i.itemID, i.itemName, i.price, i.discount, i.aisle, i.amount, i.supplier, i.store, g.expiryDate, g.allergies, COALESCE(g.category, h.category) AS category, g.special, p.genName, p.brandName
+                        FROM ITEMS i
+                        LEFT JOIN GROCERY g ON i.itemID = g.itemID
+                        LEFT JOIN HOUSEHOLD h ON i.itemID = h.itemID
+                        LEFT JOIN PHARMACY p ON i.itemID = p.itemID
+                        WHERE i.itemName LIKE '${search}';`;
+        
+        dbConnection.query(searchSQL, (error, result) => {
+            if(error) {
+                return res.status(500).send('DB error');
+            }
+            res.status(200).send(JSON.stringify(result));
+        });
+
+    } catch (err) {
+        if(err)
+        console.error(err);
+        res.status(500).send('error');
+    }
 }
 
 module.exports = {
