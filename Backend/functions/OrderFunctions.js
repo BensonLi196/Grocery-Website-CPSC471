@@ -14,27 +14,23 @@ dbConnection.connect((err) => {
 const makeOrder = async(req, res) => {
     
     const {mgrID, supID, items} = req.body;
-    const queryChecking = new Promise((resolve, reject) => {
             
-        // add to Orders
-        const orderSQL = `INSERT INTO ORDERS (mgrID, supID) VALUES ('${mgrID}', '${supID}')`;
-        dbConnection.query(orderSQL, (error, result) => {
-            if(error) res.status(500).send('DB error');
+    // add to Orders
+    const orderSQL = `INSERT INTO ORDERS (mgrID, supID) VALUES ('${mgrID}', '${supID}')`;
+    dbConnection.query(orderSQL, (error, result) => {
+        if(error) return res.status(500).send('DB error');
 
-            var orderID;
-            orderID = result.insertId;
-            
-            // add list of items to order 
-            for (var i = 0; i < items.length; i++) {
-                const orderItemSQL = `INSERT INTO ORDER_ITEMS (orderID, itemID) VALUES (${orderID}, '${items[i]}')`;
-                dbConnection.query(orderItemSQL, (error, result) => {
-                    if(error) res.status(500).send('DB error');
-                });
-            }
-            res.status(200).send('Successfully added order');
-            resolve();
-            
-        });
+        var orderID;
+        orderID = result.insertId;
+        
+        // add list of items to order 
+        for (var i = 0; i < items.length; i++) {
+            const orderItemSQL = `INSERT INTO ORDER_ITEMS (orderID, itemID) VALUES (${orderID}, '${items[i]}')`;
+            dbConnection.query(orderItemSQL, (error, result) => {
+                if(error) return res.status(500).send('DB error');
+            });
+        }
+        res.status(200).send('Successfully added order');
     });  
 }
 
