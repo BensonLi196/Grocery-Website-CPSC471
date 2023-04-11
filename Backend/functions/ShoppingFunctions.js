@@ -15,7 +15,7 @@ const getLists = async(req, res) => {
     
     const userID = req.params.uid;
 
-    const getListSQL = `SELECT sl.listName, GROUP_CONCAT(i.itemName, ',', i.price, ',', i.discount SEPARATOR ';') AS itemList
+    const getListSQL = `SELECT sl.listName, GROUP_CONCAT(i.itemName, ',', i.price, ',', i.discount, ',', a.amount SEPARATOR ';') AS itemList
                         FROM SHOP_LIST sl
                         LEFT JOIN ADDS a ON sl.listID = a.listID
                         LEFT JOIN ITEMS i ON a.itemID = i.itemID
@@ -42,7 +42,7 @@ const makeList = async(req, res) => {
             res.status(500).send('DB error');
             throw(error);
         }
-        res.status(400).send('Sucessfully created list');
+        res.status(200).send('Sucessfully created list');
     });
 }
 
@@ -56,7 +56,7 @@ const deleteList = async(req, res) => {
             res.status(500).send('DB error');
             throw(error);
         }
-        res.status(400).send('Sucessfully deleted list');
+        res.status(200).send('Sucessfully deleted list');
     });
 }
 
