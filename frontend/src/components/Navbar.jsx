@@ -1,7 +1,9 @@
 import { Stack,Button,Textfield,Menu, MenuItem, Avatar, IconButton } from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import logo from "../logo.png";
+import logo_mobile from "../logo_mobile.png";
 import SearchIcon from "@mui/icons-material/Search";
 import { useUser } from "../UserContext";
 
@@ -9,9 +11,21 @@ const Navbar = () => {
   const [groceryAnchorEl, setGroceryAnchorEl] = useState(null);
   const [householdAnchorEl, setHouseholdAnchorEl] = useState(null);
   const { userId, manager, setUserId,setManager } = useUser();
+  const [mobileView, setMobileView] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [MobileAnchorEl, setMobileAnchorEl] = useState(null);
   const [search, setSearch] = useState("");
 
+  useEffect(() => {
+    const setResponsiveness = () => {
+      return window.innerWidth < 600 ? setMobileView(true) : setMobileView(false);
+    };
+    setResponsiveness();
+    window.addEventListener('resize', setResponsiveness);
+    return () => {
+      window.removeEventListener('resize', setResponsiveness);
+    };
+  }, []);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -19,6 +33,14 @@ const Navbar = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleMobileMenuClick = (event) => {
+    setMobileAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileAnchorEl(null);
   };
 
   const handleLogout = () => {
@@ -62,14 +84,101 @@ const Navbar = () => {
           background: "#4279e5",
           top: 0,
           justifyContent: "space-between",
-          pr: 10,
+          pr: 5,
           pl: 5,
           zIndex: 20,
           boxSizing: "border-box",
         }}
       >
 
-<Link to="/" style={{ display: "flex", alignItems: "center" }}>
+
+  {mobileView ? (
+  <>
+  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+  <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start",}}>
+    <Link to="/" >
+        <img src={logo_mobile} alt="logo_mobile" height={45} />
+  </Link>
+  </div>
+    {/* ////////////////////////////  Search Bar/////////////////////////////////////////////*/ }
+    <div style={{ display: "flex", alignItems: "center", backgroundColor: "#fff", borderRadius: "5px", padding: "0px 0px",marginLeft: "25px", marginRight: "25px" }}>
+    <input type="text" style={{ border: "none", backgroundColor: "transparent", marginLeft: "10px", fontSize: "1rem",  width: "100%", boxSizing: "border-box"}} placeholder="Search"  onChange={(e) => setSearch(e.target.value)} />
+    <IconButton onClick={handleSearch}>
+        <SearchIcon sx={{ color: "grey", cursor: "pointer" }} />
+    </IconButton>
+    </div>
+    <div style={{ display: "flex", alignItems: "center"}}  >
+  <IconButton onClick={handleMobileMenuClick}>
+    <MenuIcon />
+  </IconButton>
+  <Menu anchorEl={MobileAnchorEl} open={Boolean(MobileAnchorEl)} onClose={handleMobileMenuClose} >
+    <MenuItem onClick={handleMobileMenuClose}>
+      <Link to="/items/grocery">Grocery</Link>
+    </MenuItem>
+    <MenuItem onClick={handleMobileMenuClose}>
+      <Link to="/items/household">Household</Link>
+    </MenuItem>
+    <MenuItem onClick={handleMobileMenuClose}>
+      <Link to="/items/pharmacy">Pharmacy</Link>
+    </MenuItem>
+    {userId ? (
+          <div>
+            <Button onClick={handleMenuOpen}>
+              <Avatar />
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+            >
+   
+              {manager ==='true' ?(
+                    <MenuItem onClick={handleMenuClose}>
+                    <Link
+                    to={`/management/`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    Management
+                  </Link>
+                  </MenuItem>
+                ):(
+                  <MenuItem onClick={handleMenuClose}>
+                  <Link
+                    to={`/shopping_list`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    My Lists
+                  </Link>
+                </MenuItem>
+                )
+                }
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </div>
+        ) : (
+          <div>
+           <MenuItem onClick={handleMobileMenuClose}>
+            <Link to="/login">
+                Sign in/Register
+            </Link>
+            </MenuItem>
+          </div>
+        )} 
+  </Menu>
+  </div>
+  </div>
+</>
+  ):(
+    <>
+      <Link to="/" style={{ display: "flex", alignItems: "center" }}>
         <img src={logo} alt="logo" height={45} />
       </Link>
       <div
@@ -196,10 +305,9 @@ const Navbar = () => {
         </p>
         </Link>
       </div>
-
-      {/* ////////////////////////////  Search Bar/////////////////////////////////////////////*/ }
-      <div style={{ display: "flex", alignItems: "center", backgroundColor: "#fff", borderRadius: "5px", padding: "5px 25px" }}>
-  <input type="text" style={{ border: "none", backgroundColor: "transparent", marginLeft: "10px", fontSize: "1rem",  width: "450px", boxSizing: "border-box"}} placeholder="Search"  onChange={(e) => setSearch(e.target.value)} />
+            {/* ////////////////////////////  Search Bar/////////////////////////////////////////////*/ }
+            <div style={{ display: "flex", alignItems: "center", backgroundColor: "#fff", borderRadius: "5px", padding: "0px 0px" }}>
+  <input type="text" style={{ border: "none", backgroundColor: "transparent", marginLeft: "5px", fontSize: "1rem",  width: "75%", boxSizing: "border-box"}} placeholder="Search"  onChange={(e) => setSearch(e.target.value)} />
   <IconButton onClick={handleSearch}>
       <SearchIcon sx={{ color: "grey", cursor: "pointer" }} />
   </IconButton>
@@ -256,6 +364,9 @@ const Navbar = () => {
           </div>
         )}     
         </Stack>
+      </>
+    )}
+
       </Stack>
     );
   };
