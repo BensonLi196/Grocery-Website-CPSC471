@@ -24,7 +24,7 @@ function RegisterPage() {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '100px',
+    padding: '50px',
     backgroundColor: '#FFFFFF',
     borderRadius: '2px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
@@ -129,7 +129,7 @@ function RegisterPage() {
 
   return (
     <div >
-
+     <Typography variant="h4" component="h2" style={headerStyle}>Register</Typography>
     <div style={containerStyle}>
       <form onSubmit={handleSubmit} style={formStyle}>
       <label  style={labelStyle}>

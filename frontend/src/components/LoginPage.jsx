@@ -17,13 +17,14 @@ function LoginPage() {
     alignItems: 'center',
     height: '100vh',
     backgroundColor: '#FFFFFF',
-    marginTop: '-170px'
+    marginTop: '-170px',
+    maxWidth: "100%"
   };
   const formStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '100px',
+    padding: '50px',
     backgroundColor: '#FFFFFF',
     borderRadius: '2px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'
@@ -145,7 +146,7 @@ function LoginPage() {
         <button type="submit" style = {buttonStyle}>Sign in</button>
 
         <p></p>
-        <hr style={{ width: "165%", height: "1px", background: "gray", border: "none", margin: "1px 0" }} />
+        <hr style={{ width: "100%", height: "1px", background: "gray", border: "none", margin: "1px 0" }} />
         <p style={headerStyle}>New User? Create an account</p>
         <Link to="/register">
             <button style = {regbuttonStyle}>Register</button>

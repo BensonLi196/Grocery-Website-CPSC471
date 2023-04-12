@@ -106,7 +106,7 @@ const ListCard = ({ list }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Typography variant="body1" fontFamily={"Roboto"}>Total price: ${totalPrice}    </Typography>
+      <Typography variant="body1" fontFamily={"Roboto"}>Total price: ${Math.ceil(totalPrice * 100) / 100}    </Typography>
        </>
       ):(
         <Typography variant="body1" fontFamily={"Roboto"}>
