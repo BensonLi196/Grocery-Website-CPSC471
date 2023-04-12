@@ -134,7 +134,7 @@ const CreateOrder = () => {
           }} 
         >
             <Button component={Link} to="/management" sx={{ width: "100%", height: "50px" }}>Management Tools</Button>
-            <Button component={Link} to="/items" sx={{ width: "100%", height: "50px" }}>Manage Items</Button>
+            <Button component={Link} to="/management/items" sx={{ width: "100%", height: "50px" }}>Manage Items</Button>
             <Button component={Link} to="/management/orders/" sx={{ width: "100%", height: "50px" }}>View Orders</Button>
         </Box>
       {mobileView?(
