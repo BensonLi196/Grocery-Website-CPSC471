@@ -86,8 +86,10 @@ const CreateOrder = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (supplier.trim() === "") return;
-
+    if (supplier.trim() === "" || items.length==0){
+      alert("There are no items or the supplier is empty, cannot make order.")
+      return;
+    }
 
     //add data inputted into form to a FormData object
     let data = new FormData();
