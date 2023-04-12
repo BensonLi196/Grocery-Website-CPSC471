@@ -17,8 +17,11 @@ function LoginPage() {
     alignItems: 'center',
     height: '100vh',
     backgroundColor: '#FFFFFF',
-    marginTop: '-170px',
-    maxWidth: "100%"
+    maxWidth: "100%",
+    position: "fixed",
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
   };
   const formStyle = {
     display: 'flex',
@@ -127,10 +130,15 @@ function LoginPage() {
 
 
   return (
-    <div >
-     <Typography variant="h4" component="h2" style={headerStyle}>Sign In</Typography>
+    <div>
+    <Box >
+
+     </Box>
+     <Box>
     <div style={containerStyle}>
+      
       <form onSubmit={handleSubmit} style={formStyle}>
+      <Typography variant="h4" component="h2" style={headerStyle}>Sign In</Typography>
         <label  style={labelStyle}>
           Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="Email" value={Email} onChange={handleEmailChange} 
@@ -156,6 +164,7 @@ function LoginPage() {
       </form>
       
     </div>
+    </Box>
     </div>
   );
 }

@@ -17,8 +17,12 @@ function RegisterPage() {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
+    
     backgroundColor: '#FFFFFF',
-    marginTop: '-90px'
+    position: "fixed",
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
   };
   const formStyle = {
     display: 'flex',
@@ -28,11 +32,11 @@ function RegisterPage() {
     backgroundColor: '#FFFFFF',
     borderRadius: '2px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-    height: '60%'
+    height: '60%',
   };
 
   const labelStyle = {
-    marginBottom: '25px',
+    marginBottom: '5px',
     fontSize: '20px',
     fontWeight: 400,
     textAlign: 'left',
@@ -76,7 +80,7 @@ function RegisterPage() {
   const inputStyle = {
     width: '100%',
     padding: '10px',
-    marginBottom: '15px',
+    marginBottom: '0px',
     border: '1px solid #ccc',
     borderRadius: '3px',
     fontSize: '16px',
@@ -85,7 +89,7 @@ function RegisterPage() {
   };
   const headerStyle = {
     fontFamily: 'Roboto',
-    margin: '20px 0 10px 0',
+    margin: '0px 0 10px 0',
     fontSize: '26px',
     textAlign: 'center',
   };
@@ -129,9 +133,9 @@ function RegisterPage() {
 
   return (
     <div >
-     <Typography variant="h4" component="h2" style={headerStyle}>Register</Typography>
     <div style={containerStyle}>
       <form onSubmit={handleSubmit} style={formStyle}>
+      <Typography variant="h4" component="h2" style={headerStyle}>Register</Typography>
       <label  style={labelStyle}>
           First Name:
           <input type="Username" value={FName} onChange={handleFNameChange} 
@@ -147,17 +151,15 @@ function RegisterPage() {
           <input type="Email" value={Email} onChange={handleEmailChange} 
           style = {inputStyle}/>
         </label>
-        <br />
         <label  style={labelStyle}>
           Password:
           <input type="password" value={password} onChange={handlePasswordChange} 
           style = {inputStyle}/>
         </label>
-        <br />
+
         <button type="submit" style = {buttonStyle}>Register</button>
 
-        <p></p>
-        <hr style={{ width: "165%", height: "1px", background: "gray", border: "none", margin: "1px 0" }} />
+    
         <p style={headerStyle}>Already have an account?</p>
         <Link to="/login">
             <button style = {regbuttonStyle}>Sign in</button>
