@@ -20,7 +20,10 @@ const CreateList = ({
   const handleOkClick = async (e) => {
     e.preventDefault();
 
-    if (
+    if (!userId){
+      alert('Login to make a list.');
+    }
+    else if (
       Name === "" 
     ) {
       alert('Cannot have a blank name');

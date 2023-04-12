@@ -44,7 +44,7 @@ const CreateOrder = () => {
   const {manager,userId} = useUser();
   const [supplier, setSupplier] = useState("");
   const [items, setItems] = useState([]);
-  const [itemInput, setItemInput]= useState("");
+  const [itemInput, setItemInput]= useState('');
   const [itemRemove, setItemRemove]= useState("");
 
   const [title, setTitle] = useState("");
@@ -59,8 +59,8 @@ const CreateOrder = () => {
 
   //Adds a new tag to tag array
   const handleAddition = (item) => {
-    if (itemInput<0){
-        alert("item id cannot be negative");
+    if (itemInput<0 || itemInput === ""){
+        alert("item id cannot be negative or blank");
     }
     else if (!items.includes(itemInput)){
         setItems([...items, itemInput]);
@@ -86,8 +86,10 @@ const CreateOrder = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (supplier.trim() === "") return;
-
+    if (supplier.trim() === "" || items.length==0){
+      alert("There are no items or the supplier is empty, cannot make order.")
+      return;
+    }
 
     //add data inputted into form to a FormData object
     let data = new FormData();
@@ -96,8 +98,10 @@ const CreateOrder = () => {
       data.append("items", items[i].text);
     }
 
+    const nitem = items.map(Number);
+
     //submit api request
-    const res = MakeOrderAPI(userId,supplier,items);
+    const res = MakeOrderAPI(userId,supplier,nitem);
 
     setSupplier("");
     setItems([]);
@@ -163,7 +167,7 @@ const CreateOrder = () => {
                     </Box>
                 ))}
 
-                <input type="number" placeholder="item id" value={itemInput} onChange={handleItemChange} min="0" oninput="validity.valid||(value='');">
+                <input type="number" placeholder="item id" value={itemInput} onChange={handleItemChange} min="1" oninput="validity.valid||(value='');">
                 </input>
 
                 
@@ -182,7 +186,7 @@ const CreateOrder = () => {
                     alignItems="center"
                     justifyContent="flex-start"
                     flexDirection="column">
-            <input type="number" placeholder="item id" value={itemRemove} onChange={handleItemRemoveChange} min="0" oninput="validity.valid||(value='');">
+            <input type="number" placeholder="item id" value={itemRemove} onChange={handleItemRemoveChange} min="1" oninput="validity.valid||(value='');">
                 </input>
                 <Button onClick={handleDelete} style={buttonStyle}>
                   Remove Item

@@ -199,7 +199,7 @@ const Navbar = () => {
 
       {/* ////////////////////////////  Search Bar/////////////////////////////////////////////*/ }
       <div style={{ display: "flex", alignItems: "center", backgroundColor: "#fff", borderRadius: "5px", padding: "5px 25px" }}>
-  <input type="text" style={{ border: "none", backgroundColor: "transparent", marginLeft: "10px", fontSize: "1rem",  width: "450px", boxSizing: "border-box"}} placeholder="Search"  onChange={(e) => setSearch(e.target.value)} />
+  <input type="text" style={{ border: "none", backgroundColor: "transparent", marginLeft: "10px", fontSize: "1rem",  width: "25%", boxSizing: "border-box"}} placeholder="Search"  onChange={(e) => setSearch(e.target.value)} />
   <IconButton onClick={handleSearch}>
       <SearchIcon sx={{ color: "grey", cursor: "pointer" }} />
   </IconButton>
