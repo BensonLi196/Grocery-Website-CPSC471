@@ -273,18 +273,19 @@ VALUES
 
 INSERT INTO THE_USER(UserID, FName, lName, email, Upassword)
 VALUES
-	("bPX1xJtKFzD5P5o5LzZt", "John", "Doe", "johnD@email.com", "jhndoe"), -- manager
-    ("f57878c01a47bbfd0021", "Phil", "Smith", "phils@email.com", "psmiths"), -- manager
-    ("4d02c3f3d066ec34b23a", "Lexy", "Brown", "lexyB@email.com", "lxybrwon"), -- manager
-    ("f1215b6bc5b6c7941e33", "Barry", "Davis", "barryD@email.com", "brydavis"), -- manager
-    ("yotK3qgm0Q2aJl7bEjKZ", "Jessica", "Lee", "jessicaL@email.com", "jeslee"), -- manager
-    ("8b29a02b771f8916942d", "Julia", "Anderson", "juliaA@email.com", "jlanderson"),
-    ("a42a21f1c1b955a2b61d", "Marry", "Wilson", "marryW@email.com", "mrywilson"),
-    ("30fc1f8127f301ad9e9f", "Kate", "Harris", "kateH@email.com", "ktharris"),
-    ("4c4cb7d6f584b441d1c8", "Cooper", "Jackson", "cooperJ@email.com", "cprjackson"),
-    ("53b3a3b9ccf58e67f0b3", "Liam", "White", "liamW@email.com", "lmwhite"),
-    ("a23bf6f2d2c077cfb33a", "Maddy", "Smith", "maddyS@email.com", "madsmith"),
-    ("fcfaa41371c1d0a12e06", "Tyler", "White", "tylerW@email.com", "tywhite");
+	-- test accounts
+	("bPX1xJtKFzD5P5o5LzZt", "John", "Doe", "johnD@email.com", "$2a$08$DxcSeUk.Eq.Kez6o.ILEEOxjT82siPjLNAJpL5hRQeqAIljsXvKsK"), -- manager password: jhndoe
+    ("f57878c01a47bbfd0021", "Phil", "Smith", "phils@email.com", "$2a$08$ImSYafmH3j3SPnWM.MlfE.BBkXVQos1X2cDOL1e.60CRpoDyhLzjC"), -- manager password: psmiths
+    ("4d02c3f3d066ec34b23a", "Lexy", "Brown", "lexyB@email.com", "$2a$08$POcfz3XVCTWsq1tDiEyLIuA5fN4viCEdJN7BA0ORiGUVlc0we.DNq"), -- manager password: lxybrwon
+    ("f1215b6bc5b6c7941e33", "Barry", "Davis", "barryD@email.com", "$2a$08$ol5LLTsAowzgxoRvtnZZce3ijSLwyCsMMRGmlSAmgoU139Uynvki2"), -- manager password: brydavis
+    ("yotK3qgm0Q2aJl7bEjKZ", "Jessica", "Lee", "jessicaL@email.com", "$2a$08$GlHQvvL4qWAcl0kvRvZN4e1UNBWAm.3PO0n5PO3ndKjxvDX5QsOCu"), -- manager password: jeslee
+    ("8b29a02b771f8916942d", "Julia", "Anderson", "juliaA@email.com", "$2a$08$O9LHMJ15cxLWi3s9AF1c5er33SoZgZBxdH9aTu1l6mKa5AFuT9t6a"), -- password: jlanderson
+    ("a42a21f1c1b955a2b61d", "Marry", "Wilson", "marryW@email.com", "$2a$08$5FEt4RaKvNKGqaG6NzgxY.J7oZqUueYemO5ZrjzlMVNPmh6yKAsTO"), -- password: mrywilson
+    ("30fc1f8127f301ad9e9f", "Kate", "Harris", "kateH@email.com", "$2a$08$EVFHfFrBJp.GvgzIwK7QfezXABrUoXxtzs27I/n1LL6/CysAzXr8i"), -- password: ktharris
+    ("4c4cb7d6f584b441d1c8", "Cooper", "Jackson", "cooperJ@email.com", "$2a$08$z.mHYsuvHb8t2WAUrc8RueL9njPmPq1v8qDnXMlGVKeMo9R5BFHim"), -- password: cprjackson
+    ("53b3a3b9ccf58e67f0b3", "Liam", "White", "liamW@email.com", "$2a$08$PilnsYkFOq8zP4BWWo720udlEihL6lzT/1KRRbkJ2UyecpzuSzlqO"), -- password: lmwhite
+    ("a23bf6f2d2c077cfb33a", "Maddy", "Smith", "maddyS@email.com", "$2a$08$hTtRlnLaWiKgjjYZdr.29uamQIgZCJup2WJBAnXcmetRjyUBthTfe"), -- password: madsmith
+    ("fcfaa41371c1d0a12e06", "Tyler", "White", "tylerW@email.com", "$2a$08$QNOkqomXgxqXMsDa5ORTzOjzy5N49Iflh.KAi8mx/NpjL0GosKAEa"); -- password: tywhite
     
 INSERT INTO MANAGER(mgrID, storeID)
 VALUES 

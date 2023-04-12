@@ -45,10 +45,11 @@ const ListCard = ({ list }) => {
 
   if (list.itemList != null) {
     itemsArray = list.itemList.split(";").map((item) => {
-      const [itemID,itemName, price, discount, amount] = item.split(",");
-      return {itemID, itemName, price, discount, amount };
+      const [itemID,itemName, price, discount, amount, totalPrice] = item.split(",");
+      return {itemID, itemName, price, discount, amount,totalPrice };
     });
   }
+  const totalPrice = itemsArray.reduce((total, item) => total + parseFloat(item.totalPrice), 0);
 
   return (
     <Box
@@ -71,6 +72,7 @@ const ListCard = ({ list }) => {
       </Typography>
 
       {itemsArray.length > 0 ?(
+        <>
         
       <TableContainer>
         <Table>
@@ -80,6 +82,7 @@ const ListCard = ({ list }) => {
               <TableCell>Price</TableCell>
               <TableCell>Discount</TableCell>
               <TableCell>Amount</TableCell>
+              <TableCell>Total</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -89,6 +92,7 @@ const ListCard = ({ list }) => {
                 <TableCell>${item.price}</TableCell>
                 <TableCell>${item.discount}</TableCell>
                 <TableCell>{item.amount}</TableCell>
+                <TableCell>{Math.ceil(item.totalPrice * 100) / 100}</TableCell>
                 <TableCell>
                       <IconButton
                         onClick={() => handleDelete(item.itemID)}
@@ -102,6 +106,8 @@ const ListCard = ({ list }) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Typography variant="body1" fontFamily={"Roboto"}>Total price: ${totalPrice}    </Typography>
+       </>
       ):(
         <Typography variant="body1" fontFamily={"Roboto"}>
         No items in list.

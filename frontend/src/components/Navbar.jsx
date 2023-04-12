@@ -305,9 +305,11 @@ const Navbar = () => {
         </p>
         </Link>
       </div>
+
             {/* ////////////////////////////  Search Bar/////////////////////////////////////////////*/ }
             <div style={{ display: "flex", alignItems: "center", backgroundColor: "#fff", borderRadius: "5px", padding: "0px 0px" }}>
   <input type="text" style={{ border: "none", backgroundColor: "transparent", marginLeft: "5px", fontSize: "1rem",  width: "75%", boxSizing: "border-box"}} placeholder="Search"  onChange={(e) => setSearch(e.target.value)} />
+
   <IconButton onClick={handleSearch}>
       <SearchIcon sx={{ color: "grey", cursor: "pointer" }} />
   </IconButton>
