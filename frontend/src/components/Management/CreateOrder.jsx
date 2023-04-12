@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Stack, styled, Button, Typography } from "@mui/material";
 import { WithContext as ReactTags } from "react-tag-input";
 import { useUser } from "../../UserContext";
@@ -7,8 +7,8 @@ import { MakeOrderAPI } from "../../callAPI";
 import { Link,useParams } from "react-router-dom";
 
 const TitleInput = styled("textarea")`
-  width: 10vw;
-  height: 20px;
+  width: 100%px;
+  height: 15px;
   padding: 10px;
   border: 1px solid #b7b9f7;
   border-radius: 1px;
@@ -108,23 +108,114 @@ const CreateOrder = () => {
     // window.location.href = window.location.href;
   };
 
+  const [mobileView, setMobileView] = useState(false);
+  useEffect(() => {
+    const setResponsiveness = () => {
+      return window.innerWidth < 600 ? setMobileView(true) : setMobileView(false);
+    };
+    setResponsiveness();
+    window.addEventListener('resize', setResponsiveness);
+    return () => {
+      window.removeEventListener('resize', setResponsiveness);
+    };
+  }, []);
+
+
   return (
     <div>
       
-      <Box display="flex" flexDirection="row" sx={{ overflowY: "auto", flex: 1,height:"90vh" }}>
+    <Box display="flex" flexDirection="row" sx={{ overflowY: "auto", flex: 1,height:"90vh" }}>
       <Box 
           sx={{
             backgroundColor: "#F0F0F0",
-            width: "20%",
+            width: "30%",
             flexShrink: 0,
             height: "100%",
-          }}
-          
+          }} 
         >
             <Button component={Link} to="/management" sx={{ width: "100%", height: "50px" }}>Management Tools</Button>
             <Button component={Link} to="/items" sx={{ width: "100%", height: "50px" }}>Manage Items</Button>
             <Button component={Link} to="/management/orders/" sx={{ width: "100%", height: "50px" }}>View Orders</Button>
         </Box>
+      {mobileView?(
+         <Box
+         width="100wh"
+         height="100vh"
+         display="flex"
+         alignItems="center"
+         justifyContent="flex-start"
+         flexDirection="column"
+         ml={5}
+       >
+           <h1><b>Create Order</b></h1>
+         <Box
+           mb={40}
+           pb={5}
+           sx={{
+             backgroundColor: "#4279e5", 
+             borderRadius: 1,
+             border: "none",
+             textAlign: 'center'
+           }}
+         >
+         <Typography><b>Supplier:</b></Typography>
+           <form onSubmit={handleSubmit}>
+             {/* Supplier Input */}
+             <Box pt={4} pb={2}>
+               <TitleInput
+                 value={supplier}
+                 onChange={(e) => setSupplier(e.target.value)}
+                 placeholder="Supplier Id"
+               />
+             </Box>
+           <Box >
+             <Typography><b>Item ids:</b></Typography>
+           </Box >
+             {/* Inputs */}
+             <Box  pb={10} >
+               <Box  p={2} pl={0} pr={0} sx={{overflowY: "auto"}} >
+               {items.map((item) => (
+                     <Box key={item}>
+                         <Typography>{item}</Typography>
+                     </Box>
+                 ))}
+ 
+                 <input type="number" placeholder="item id" value={itemInput} onChange={handleItemChange} min="1" oninput="validity.valid||(value='');">
+                 </input>
+ 
+                 
+               </Box>
+               <Box  display="flex"
+                     alignItems="center"
+                     justifyContent="flex-start"
+                     flexDirection="column">
+               <Button onClick={handleAddition} style={buttonStyle}>
+                   Add item
+                 </Button>
+       
+                 </Box>
+             </Box>
+             <Box display="flex"
+                     alignItems="center"
+                     justifyContent="flex-start"
+                     flexDirection="column">
+             <input type="number" placeholder="item id" value={itemRemove} onChange={handleItemRemoveChange} min="1" oninput="validity.valid||(value='');">
+                 </input>
+         
+                 <Button onClick={handleDelete} style={buttonStyle}>
+                   Remove Item
+                 </Button>
+             </Box>
+             <Box pt={5} pr={5}>
+             <Button type="submit" style={buttonStyle}>
+                   Submit Order
+                 </Button>
+             </Box>
+           </form>
+         </Box>
+           
+       </Box>
+      ):(
       <Box
         width="100wh"
         height="100vh"
@@ -199,10 +290,10 @@ const CreateOrder = () => {
             </Box>
           </form>
         </Box>
-                {/* Sidebar */}
-      
+          
       </Box>
-      </Box>
+      )}
+    </Box>
     </div>
   );
 };

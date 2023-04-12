@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from '../UserContext';
 
@@ -18,6 +18,19 @@ function ManagementPage() {
     borderRadius: '20px',
     textAlign: 'center',
     color: 'black',
+  };
+
+  
+  const mobileRecStyle = {
+    height: '90%',
+    width: '95%',
+    backgroundColor: '#fbc546',
+    border: '1px solid orange',
+    marginRight: '20px',
+    borderRadius: '20px',
+    textAlign: 'center',
+    color: 'black',
+    margin: '10px 0' 
   };
 
   const containerStyle = {
@@ -55,6 +68,18 @@ function ManagementPage() {
             mr: { sm: 5 } 
   };
 
+  const [mobileView, setMobileView] = useState(false);
+  useEffect(() => {
+    const setResponsiveness = () => {
+      return window.innerWidth < 600 ? setMobileView(true) : setMobileView(false);
+    };
+    setResponsiveness();
+    window.addEventListener('resize', setResponsiveness);
+    return () => {
+      window.removeEventListener('resize', setResponsiveness);
+    };
+  }, []);
+
   return (
   
     <div style={{ overflowX: 'hidden' }}>
@@ -67,6 +92,25 @@ function ManagementPage() {
             </ul>
       </div>
         <br/>
+       {mobileView?(
+              <div style={{containerStyle, display: 'flex', flexDirection: 'column'}} >
+              <div style={mobileRecStyle}>
+              <img style={imageStyle} src="https://smallbusiness-staging.s3.amazonaws.com/uploads/2017/11/Supplier-101117-scaled.jpeg" alt="shopping list" />
+                  <h3>Manage Orders</h3>
+                  <Link to="/management/orders">
+                      <button  style = {buttonStyle}>Go</button>
+                  </Link>
+              </div>
+              <div style={mobileRecStyle}>
+                  <img style={imageStyle} src="https://hips.hearstapps.com/hmg-prod/images/09dce7b7-ea40-406b-a2c0-a3f57c420b17-1657946362.jpeg?crop=0.660xw:1.00xh;0.0794xw,0&resize=1200:*" alt="shopping list" />
+                  <h3>Create Items</h3>
+                  <Link to="/management/items">
+                      <button  style = {buttonStyle}>Go</button>
+                  </Link>
+              </div>
+        </div>
+
+       ):(
       <div style={containerStyle}>
             <div style={rectangleStyle}>
             <img style={imageStyle} src="https://smallbusiness-staging.s3.amazonaws.com/uploads/2017/11/Supplier-101117-scaled.jpeg" alt="shopping list" />
@@ -83,6 +127,7 @@ function ManagementPage() {
                 </Link>
             </div>
       </div>
+      )} 
       </>
       ):
       (

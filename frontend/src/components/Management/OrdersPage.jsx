@@ -22,7 +22,7 @@ import { getAllOrdersAPI } from '../../callAPI';
         <Box 
           sx={{
             backgroundColor: "#F0F0F0",
-            width: "20%",
+            width: "30%",
             flexShrink: 0,
             height: "100%",
           }}

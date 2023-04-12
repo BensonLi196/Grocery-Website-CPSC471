@@ -21,6 +21,19 @@ function ItemManagementPage() {
     color: 'black',
   };
 
+  const mobileRecStyle = {
+    height: '90%',
+    width: '95%',
+    backgroundColor: '#fbc546',
+    border: '1px solid orange',
+    marginRight: '20px',
+    borderRadius: '20px',
+    textAlign: 'center',
+    color: 'black',
+    margin: '10px 0' 
+  };
+
+
   const containerStyle = {
     display: 'flex',
     justifyContent: 'space-around', 
@@ -55,6 +68,19 @@ function ItemManagementPage() {
             boxShadow: 'none',
             mr: { sm: 5 } 
   };
+
+  const [mobileView, setMobileView] = useState(false);
+  useEffect(() => {
+    const setResponsiveness = () => {
+      return window.innerWidth < 600 ? setMobileView(true) : setMobileView(false);
+    };
+    setResponsiveness();
+    window.addEventListener('resize', setResponsiveness);
+    return () => {
+      window.removeEventListener('resize', setResponsiveness);
+    };
+  }, []);
+
 
   const [isGPopUpVisible, setIsGPopUpVisible] = useState(false);
   const [isHPopUpVisible, setIsHPopUpVisible] = useState(false);
@@ -98,11 +124,30 @@ function ItemManagementPage() {
         <>
       <div style={styles}>
             <br/>
-            <h1 style={{textAlign: 'center', fontFamily: 'Roboto'}}>Management Tools</h1>
+            <h1 style={{textAlign: 'center', fontFamily: 'Roboto'}}>Item Management Tools</h1>
             <ul>
             </ul>
       </div>
         <br/>
+        {mobileView ?(
+        <div style={{containerStyle, display: 'flex', flexDirection: 'column'}} >
+            <div style={mobileRecStyle}>
+                <img style={imageStyle} src="https://hips.hearstapps.com/hmg-prod/images/09dce7b7-ea40-406b-a2c0-a3f57c420b17-1657946362.jpeg?crop=0.660xw:1.00xh;0.0794xw,0&resize=1200:*" alt="shopping list" />
+                <h3>Create Grocery Item</h3>
+                    <button  style = {buttonStyle}onClick={handleGClick}>Create</button>
+            </div>
+            <div style={mobileRecStyle}>
+                <img style={imageStyle} src="https://hips.hearstapps.com/hmg-prod/images/gettyimages-510693044-1550590816.jpg" alt="shopping list" />
+                <h3>Create Household Items</h3>
+                    <button  style = {buttonStyle}onClick={handleHClick}>Create</button>
+            </div>
+            <div style={mobileRecStyle}>
+                <img style={imageStyle} src="https://media.istockphoto.com/id/673531980/vector/drugs-and-medicines.jpg?s=612x612&w=0&k=20&c=RKHz0NXsfGBFktrC6q0ihybeGfoj6FR6LPeuKyFEsn4=" alt="shopping list" />
+                <h3>Create Pharmacy Items</h3>
+                    <button  style = {buttonStyle} onClick={handlePClick}>Create</button>
+            </div>
+      </div>
+        ):(
       <div style={containerStyle}>
             <div style={rectangleStyle}>
                 <img style={imageStyle} src="https://hips.hearstapps.com/hmg-prod/images/09dce7b7-ea40-406b-a2c0-a3f57c420b17-1657946362.jpeg?crop=0.660xw:1.00xh;0.0794xw,0&resize=1200:*" alt="shopping list" />
@@ -120,6 +165,7 @@ function ItemManagementPage() {
                     <button  style = {buttonStyle} onClick={handlePClick}>Create</button>
             </div>
       </div>
+      )} 
       </>
       ):
       (
