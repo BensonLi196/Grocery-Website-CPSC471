@@ -50,12 +50,19 @@ export const RegisterAPI = async (First,Last,Email,password) => {
 ///////////////////////////////ORDER APIS
 // Endpoint to Make an order
 export const MakeOrderAPI = async (managerID, supplierID, items) => {
+  console.log("order items: ",items);
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
   const response = await axios
     .post(`${BASE_URL}/api/order/`, {
         mgrID: `${managerID}`,
         supID: supplierID,
-        items: `${items}`,
-    })
+        items: items,
+    },
+    options)
     .catch((error) => {
       if (error.response)
       {
