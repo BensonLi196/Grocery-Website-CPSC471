@@ -4,6 +4,8 @@ Ayal Mashiack,
 Benson Li, 
 Jack Li
 
+Code can alternatively be found here at: https://github.com/Sefadugik/Grocery-Website-CPSC471 
+
 # starting up the program
 Prerequisites: have Node.js and npm installed on VSCode or standalone
 
